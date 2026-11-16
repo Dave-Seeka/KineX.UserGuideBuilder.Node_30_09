@@ -1,0 +1,40 @@
+{
+    "testRunId":  "BLACKBURN-5255-MANUAL-AREA-2027",
+    "orchardPin":  "5255",
+    "orchardName":  "Blackburn",
+    "countryCode":  "NZ",
+    "cropCode":  "KIWIFRUIT",
+    "season":  "2027",
+    "asOfDate":  "2027-06-01",
+    "manualEntryDate":  "2027-06-02",
+    "splitDate":  "2027-06-03",
+    "sourceBlockCode":  "BLK-0002",
+    "enteredHectares":  null,
+    "manualOverrideReason":  "E2E OMD-1638 manual business hectares validation",
+    "cutLine":  [
+                    [
+                        0.5,
+                        -0.15
+                    ],
+                    [
+                        0.5,
+                        1.15
+                    ]
+                ],
+    "notes":  "Uses existing Blackburn PIN 5255 Property/Orchard/Blocks. In --stage run, creates or verifies two test-owned MAs through KineX frontend before applying a manual hectare value and splitting the first mapped Block. Pin sourceBlockCode from inventory. Second MA Block defaults to the first distinct unassigned Block; configure blockCode to control it. Multiple Grower Supply options require maSetup.growerSupplyEntityId. Truck access defaults to first available test reference; configure maSetup.truckAccessId to pin it.",
+    "maSetup":  {
+                    "mode":  "create-or-reuse",
+                    "truckAccessId":  null,
+                    "growerSupplyEntityId":  null,
+                    "areas":  [
+                                  {
+                                      "code":  "BH5255A2027",
+                                      "blockCode":  "BLK-0002"
+                                  },
+                                  {
+                                      "code":  "BH5255B2027",
+                                      "blockCode":  "BLK-0003"
+                                  }
+                              ]
+                }
+}

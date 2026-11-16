@@ -1,0 +1,283 @@
+{
+  "id": "mutation-create-orchard",
+  "title": "Verify Orchard create notifications",
+  "description": "Create a uniquely named test Orchard, confirm create and defer-shape toasts, then leave it for controlled cleanup.",
+  "category": "Mutation verification",
+  "order": 300,
+  "profiles": [
+    "mutation"
+  ],
+  "mutation": true,
+  "coverage": {
+    "capability": "Verify Orchard create notifications",
+    "mode": "mutation",
+    "dataGated": true
+  },
+  "safety": "This verification flow creates a guide-owned Orchard. The mutation cleanup flows remove it after dependent checks complete.",
+  "prerequisites": [
+    "Run only in a disposable test environment with create/delete permissions."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Create a test Orchard",
+      "instruction": "Complete the existing-Property Orchard flow with a unique guide identifier and submit.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='create-orchard']:not(:disabled)"
+          },
+          "minCount": 1,
+          "message": "Create Orchard is unavailable for the current session.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-orchard']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='entity-create-drawer'][data-guide-entity='orchard']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "skipIfVisible",
+          "locator": {
+            "text": "Create-form options are temporarily rate limited"
+          },
+          "message": "Create-form options are temporarily rate limited. Close the form and try again shortly.",
+          "timeoutMs": 2000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='property-search'] input"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='property-option']"
+          },
+          "minCount": 1,
+          "message": "No selectable Parent Property is available.",
+          "timeoutMs": 30000
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='property-option']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-details-step']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "selectFirstOptionIfEmpty",
+          "locator": {
+            "selector": "[data-guide='orchard-crop']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "fillValidOrchardPin",
+          "locator": {
+            "selector": "[data-guide='orchard-pin'] input"
+          },
+          "cropLocator": {
+            "selector": "[data-guide='orchard-crop']"
+          },
+          "prefix": "{{mutations.testPrefix}}",
+          "timeoutMs": 20000
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='orchard-name'] input"
+          },
+          "value": "{{mutations.testPrefix}} Orchard {{runId}}",
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-additional-step']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "selectFirstOptionIfEmpty",
+          "locator": {
+            "selector": "[data-guide='orchard-status']"
+          },
+          "timeoutMs": 10000,
+          "optional": true
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-review-step']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='create-submit-action'] button"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-submit-action'] button"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "assertToast",
+          "contains": "created in KineX",
+          "tone": "success",
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='geometry-choice']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='geometry-add-later']"
+          },
+          "timeoutMs": 10000
+        },
+        {
+          "type": "assertToast",
+          "contains": "created without a shape",
+          "tone": "warning",
+          "timeoutMs": 15000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard']"
+          },
+          "timeoutMs": 30000
+        }
+      ],
+      "capture": {
+        "file": "01-created.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-shell']"
+            },
+            "label": "Created Orchard",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='geometry-status']"
+            },
+            "label": "Shape pending",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6,
+            "optional": true
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertAttribute",
+          "label": "Created Orchard shown in view mode",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard']"
+          },
+          "name": "data-guide-mode",
+          "exact": "view"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "id": "create-maturity-area-required-fields",
+  "title": "Understand Maturity Area creation prerequisites",
+  "description": "Show MA details and the required-field gate without entering or saving any data.",
+  "category": "Create records",
+  "order": 125,
+  "profiles": [
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Validate MA create prerequisites",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "Read-only walkthrough of create prerequisites; closes the drawer without submitting.",
+  "prerequisites": [
+    "An Orchard is available and the user can open Create MA."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Open MA prerequisites",
+      "instruction": "Select an Orchard and examine the MA code, Truck access, Grower Supply and effective-date requirements. No data is entered or saved.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench",
+          "waitForMapReady": false
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "clickIfVisible",
+          "locator": {
+            "selector": "[data-guide='back-to-orchards']"
+          },
+          "timeoutMs": 2000
+        },
+        {
+          "type": "clickUntilVisible",
+          "locator": {
+            "selector": "button[role='tab'][title='Orchards']"
+          },
+          "successLocator": {
+            "selector": "[data-guide='orchard-navigator']"
+          },
+          "timeoutMs": 15000,
+          "perAttemptTimeoutMs": 1000
+        },
+        {
+          "type": "selectMaSafeGuideOrchard"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard']"
+          },
+          "timeoutMs": 15000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='context-create-ma']:not(:disabled)"
+          },
+          "minCount": 1,
+          "message": "MA creation unavailable for the selected Orchard."
+        },
+        {
+          "type": "clickUntilVisible",
+          "locator": {
+            "selector": "[data-guide='context-create-ma']:not(:disabled)"
+          },
+          "successLocator": {
+            "selector": "[data-guide='entity-create-drawer'][data-guide-entity='maturityarea']"
+          },
+          "timeoutMs": 15000,
+          "perAttemptTimeoutMs": 1000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='maturity-area-code'] input"
+          },
+          "minCount": 1
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='maturity-area-truck-access'] select"
+          },
+          "minCount": 1
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='maturity-area-grower-supply'] select"
+          },
+          "minCount": 1
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='maturity-area-effective-date'] input[type='date']"
+          },
+          "minCount": 1
+        },
+        {
+          "type": "assertDisabled",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "label": "Required fields block continuation"
+        }
+      ],
+      "capture": {
+        "file": "01-ma-required-fields.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='maturity-area-code']"
+            },
+            "label": "MA code",
+            "number": 1
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='maturity-area-truck-access']"
+            },
+            "label": "Truck access",
+            "number": 2
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='maturity-area-grower-supply']"
+            },
+            "label": "Grower supply",
+            "number": 3
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='maturity-area-effective-date']"
+            },
+            "label": "Effective date",
+            "number": 4
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertDisabled",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "label": "MA details cannot continue without required data"
+        }
+      ]
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='create-cancel-action'] button"
+      },
+      "timeoutMs": 1500
+    }
+  ]
+}

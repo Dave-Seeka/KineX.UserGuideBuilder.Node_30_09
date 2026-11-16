@@ -1,0 +1,253 @@
+{
+  "id": "block-hectares-pin-1285",
+  "description": "Source-derived PIN 1285 Block shape and hectare fixture. Original Northland polygons are translated together into a bounded synthetic Te Puke test area (NZTM2000) before UI drawing.",
+  "source": {
+    "propertyGlobalId": "98a721c9-d82a-4b2c-affa-ba9cf8cf075c",
+    "orchardId": "31239",
+    "orchardPin": "1285",
+    "orchardKey": "ORCHARD:31239|CROP:KIWIFRUIT",
+    "cropCode": "KIWIFRUIT",
+    "seasonEffectiveDate": "2026-07-01"
+  },
+  "e2e": {
+    "spatialReferenceWkid": 2193,
+    "translationMetres": {
+      "x": 5000,
+      "y": 2000
+    },
+    "targetPlacement": {
+      "wkid": 2193,
+      "location": "Te Puke, Bay of Plenty, New Zealand (synthetic test area)",
+      "x": 1892000,
+      "y": 5809000,
+      "bounds": {
+        "xmin": 1887000,
+        "ymin": 5803900,
+        "xmax": 1897000,
+        "ymax": 5814100
+      }
+    },
+    "property": {
+      "geometry": [
+        [
+          1690933.8186,
+          6114861.4414
+        ],
+        [
+          1690804.8144,
+          6114952.3418
+        ],
+        [
+          1690615.003,
+          6115148.0373
+        ],
+        [
+          1691086.2438,
+          6115616.2087
+        ],
+        [
+          1691369.9707,
+          6115338.1906
+        ],
+        [
+          1691023.4441,
+          6114900.9403
+        ],
+        [
+          1690933.8186,
+          6114861.4414
+        ]
+      ]
+    },
+    "orchard": {
+      "geometry": [
+        [
+          1690941.3715,
+          6114946.7305
+        ],
+        [
+          1690871.503,
+          6114993.689
+        ],
+        [
+          1690856.4769,
+          6115006.8003
+        ],
+        [
+          1690720.434,
+          6115147.0605
+        ],
+        [
+          1691086.607,
+          6115510.8484
+        ],
+        [
+          1691269.2627,
+          6115331.8679
+        ],
+        [
+          1690976.2013,
+          6114962.0804
+        ],
+        [
+          1690941.3715,
+          6114946.7305
+        ]
+      ]
+    },
+    "blocks": [
+      {
+        "sourceBlockCode": "1",
+        "sourcePhysicalAreaId": "317464",
+        "sourceGisGlobalId": "ce645a0d-8a37-4d94-9ba9-acb812d9a542",
+        "sourceGisAreaHectares": 1.5043,
+        "businessAreaHectares": "1.50",
+        "destructiveTestBlock": false,
+        "geometry": [
+          [
+            1690943.8891,
+            6114975.1602
+          ],
+          [
+            1690960.4537,
+            6114982.4604
+          ],
+          [
+            1691067.3588,
+            6115123.1325
+          ],
+          [
+            1691015.7101,
+            6115143.6991
+          ],
+          [
+            1690988.4312,
+            6115149.6939
+          ],
+          [
+            1690969.5371,
+            6115145.2839
+          ],
+          [
+            1690958.5622,
+            6115131.0473
+          ],
+          [
+            1690917.3058,
+            6115054.5722
+          ],
+          [
+            1690905.3396,
+            6115035.1823
+          ],
+          [
+            1690886.7542,
+            6115013.5605
+          ],
+          [
+            1690943.8891,
+            6114975.1602
+          ]
+        ]
+      },
+      {
+        "sourceBlockCode": "2",
+        "sourcePhysicalAreaId": "317465",
+        "sourceGisGlobalId": "23a85182-e8b7-4bb5-bc4e-ec54a1b7750d",
+        "sourceGisAreaHectares": 2.5872,
+        "businessAreaHectares": "2.59",
+        "destructiveTestBlock": false,
+        "geometry": [
+          [
+            1690873.6977,
+            6115024.9532
+          ],
+          [
+            1690902.6533,
+            6115050.122
+          ],
+          [
+            1690965.0853,
+            6115172.8601
+          ],
+          [
+            1690874.9724,
+            6115262.6252
+          ],
+          [
+            1690755.5777,
+            6115146.7349
+          ],
+          [
+            1690873.6977,
+            6115024.9532
+          ]
+        ]
+      },
+      {
+        "sourceBlockCode": "3",
+        "sourcePhysicalAreaId": "317466",
+        "sourceGisGlobalId": "032826d5-7326-473b-8e1b-16720c1925ba",
+        "sourceGisAreaHectares": 3.3715,
+        "businessAreaHectares": "3.00",
+        "destructiveTestBlock": true,
+        "geometry": [
+          [
+            1690940.8185,
+            6115198.3295
+          ],
+          [
+            1690965.5674,
+            6115174.0028
+          ],
+          [
+            1691052.0301,
+            6115146.7965
+          ],
+          [
+            1691235.6934,
+            6115329.7603
+          ],
+          [
+            1691148.826,
+            6115413.7611
+          ],
+          [
+            1690940.8185,
+            6115198.3295
+          ]
+        ]
+      },
+      {
+        "sourceBlockCode": "4",
+        "sourcePhysicalAreaId": "317467",
+        "sourceGisGlobalId": "5bdb7ddc-2bb8-4e98-a047-82d8e4d47147",
+        "sourceGisAreaHectares": 2.6491,
+        "businessAreaHectares": "2.65",
+        "destructiveTestBlock": false,
+        "geometry": [
+          [
+            1691148.3601,
+            6115414.3391
+          ],
+          [
+            1691086.7281,
+            6115475.7283
+          ],
+          [
+            1690875.9149,
+            6115262.6163
+          ],
+          [
+            1690939.8868,
+            6115199.4856
+          ],
+          [
+            1691148.3601,
+            6115414.3391
+          ]
+        ]
+      }
+    ]
+  }
+}

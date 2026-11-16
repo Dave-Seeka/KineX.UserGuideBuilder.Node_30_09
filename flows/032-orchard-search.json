@@ -1,0 +1,186 @@
+{
+  "id": "orchard-search",
+  "title": "Search and clear Orchards",
+  "description": "Use a partial Orchard name or PIN, review no-results feedback, then clear the search.",
+  "category": "Navigation and selection",
+  "order": 32,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Search and clear Orchards",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "At least one Orchard is in the selected scope."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Search for an Orchard",
+      "instruction": "Use text from the first Orchard to narrow the list.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='orchard-row']"
+          },
+          "minCount": 1,
+          "message": "No Orchards are available."
+        },
+        {
+          "type": "fillFromText",
+          "source": {
+            "selector": "[data-guide='orchard-row'] strong"
+          },
+          "locator": {
+            "selector": "[data-guide='orchard-search']"
+          },
+          "maxLength": 10
+        },
+        {
+          "type": "assertCount",
+          "locator": {
+            "selector": "[data-guide='orchard-row']"
+          },
+          "min": 1,
+          "visibleOnly": true
+        }
+      ],
+      "capture": {
+        "file": "01-search.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-search']"
+            },
+            "label": "Search by name or PIN",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-list']"
+            },
+            "label": "Matching Orchards",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Review no matches",
+      "instruction": "Enter a value that cannot match an Orchard.",
+      "actions": [
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='orchard-search']"
+          },
+          "value": "__NO_MATCH_{{runId}}__"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-empty']"
+          }
+        },
+        {
+          "type": "assertText",
+          "locator": {
+            "selector": "[data-guide='orchard-empty']"
+          },
+          "matches": "^No Orchards match this name or PIN\\.$"
+        }
+      ],
+      "capture": {
+        "file": "02-no-results.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-search']"
+            },
+            "label": "Search text",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-empty']"
+            },
+            "label": "No matching Orchards",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Clear the search",
+      "instruction": "Remove the search value to restore the current scope.",
+      "actions": [
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='orchard-search']"
+          },
+          "value": ""
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-list']"
+          }
+        }
+      ],
+      "capture": {
+        "file": "03-cleared.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-list']"
+            },
+            "label": "All scoped Orchards",
+            "number": 1,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ]
+}

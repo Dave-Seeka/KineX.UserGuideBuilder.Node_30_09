@@ -1,0 +1,240 @@
+{
+  "id": "property-boundary-filters",
+  "title": "Filter Properties by boundary status",
+  "description": "Separate Properties with ArcGIS boundaries from records that still need a boundary.",
+  "category": "Navigation and selection",
+  "order": 28,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Filter Properties by boundary status",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "At least one linked Property and one unlinked Property are available for the effective date."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Show Properties with boundaries",
+      "instruction": "Select Map to show Properties with an ArcGIS boundary.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "button[role='tab'][title='Properties']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='property-navigator']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "assertHidden",
+          "locator": {
+            "text": "Checking Property boundaries\u2026",
+            "exact": true
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='property-link-filter-trigger']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='property-filter-linked']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": ".workbench-property-row"
+          },
+          "minCount": 1,
+          "message": "No linked Property is available for this effective date."
+        }
+      ],
+      "checks": [
+        {
+          "type": "assertAttribute",
+          "label": "Mapped Property badge",
+          "locator": {
+            "selector": ".workbench-property-row > .workbench-link-badge"
+          },
+          "name": "aria-label",
+          "matches": "^Map:"
+        }
+      ],
+      "capture": {
+        "file": "01-linked-properties.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='property-link-filter-trigger']"
+            },
+            "label": "Map filter active",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": ".workbench-property-row > .workbench-link-badge"
+            },
+            "label": "Boundary mapped",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Show Properties without boundaries",
+      "instruction": "Select No Map to find Property records that still need a boundary.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='property-link-filter-trigger']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='property-filter-unlinked']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": ".workbench-property-row"
+          },
+          "minCount": 1,
+          "message": "No unlinked Property is available for this effective date."
+        }
+      ],
+      "checks": [
+        {
+          "type": "assertAttribute",
+          "label": "Unmapped Property badge",
+          "locator": {
+            "selector": ".workbench-property-row > .workbench-link-badge"
+          },
+          "name": "aria-label",
+          "matches": "^No Map:"
+        }
+      ],
+      "capture": {
+        "file": "02-unlinked-properties.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='property-link-filter-trigger']"
+            },
+            "label": "No Map filter active",
+            "number": 1,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": ".workbench-property-row > .workbench-link-badge"
+            },
+            "label": "Boundary not set",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Return to all Properties",
+      "instruction": "Select All records to restore both mapped and unmapped Properties.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='property-link-filter-trigger']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='property-filter-all']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "03-all-properties.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='property-link-filter-trigger']"
+            },
+            "label": "All records",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": ".workbench-property-list"
+            },
+            "label": "Complete Property list",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='property-link-filter-trigger']"
+      },
+      "timeoutMs": 1500
+    },
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='property-filter-all']"
+      },
+      "timeoutMs": 1500
+    }
+  ]
+}

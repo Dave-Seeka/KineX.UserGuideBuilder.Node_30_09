@@ -1,0 +1,157 @@
+{
+  "id": "block-lifecycle-actions",
+  "title": "Review Block split lifecycle actions",
+  "description": "Review physical Split Block, Undo split and Rejoin next season actions without starting a lifecycle command.",
+  "category": "Block lifecycle",
+  "order": 177,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Review Block split lifecycle actions",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "A Maturity Area contains at least one mapped Block."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Review physical Split actions",
+      "instruction": "Mapped MA Blocks expose Split Block directly. Undo split and Rejoin next season render as direct row actions when their lineage rules allow them.",
+      "actions": [
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "button[role='tab'][title='Maturity Areas']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='maturity-area-navigator']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": ".workbench-ma-row button[aria-label^='Select Maturity Area ']"
+          },
+          "minCount": 1,
+          "message": "No Maturity Area is available for the selected scope.",
+          "timeoutMs": 15000
+        },
+        {
+          "type": "clickCandidateUntil",
+          "locator": {
+            "selector": ".workbench-ma-row button[aria-label^='Select Maturity Area ']"
+          },
+          "afterClickActions": [
+            {
+              "type": "waitFor",
+              "locator": {
+                "selector": "[data-guide='business-form-shell'][data-guide-entity='maturity area']"
+              },
+              "timeoutMs": 5000
+            },
+            {
+              "type": "click",
+              "locator": {
+                "role": "tab",
+                "name": "Allocation",
+                "exact": true
+              },
+              "timeoutMs": 5000
+            },
+            {
+              "type": "waitFor",
+              "locator": {
+                "selector": "[data-guide='ma-blocks-tab']"
+              },
+              "timeoutMs": 5000
+            }
+          ],
+          "successLocator": {
+            "selector": "tr:has(.workbench-multi-block-table__map--linked) [data-guide='multi-block-table-secondary-action'][aria-label^='Split Block ']:not(:disabled)"
+          },
+          "timeoutMs": 60000,
+          "perCandidateTimeoutMs": 6000,
+          "message": "No Maturity Area currently exposes a mapped Block with Split Block available."
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "tr:has(.workbench-multi-block-table__map--linked) [data-guide='multi-block-table-secondary-action'][aria-label^='Split Block ']:not(:disabled)"
+          },
+          "minCount": 1,
+          "message": "No mapped MA Block currently exposes Split Block.",
+          "timeoutMs": 10000
+        }
+      ],
+      "capture": {
+        "file": "01-lifecycle-actions.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "tr:has(.workbench-multi-block-table__map--linked) [data-guide='multi-block-table-secondary-action'][aria-label^='Split Block ']:not(:disabled)"
+            },
+            "label": "Split Block",
+            "number": 1,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='multi-block-table-tertiary-action'][aria-label^='Undo split ']"
+            },
+            "label": "Undo split",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6,
+            "optional": true
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='multi-block-table-quaternary-action'][aria-label^='Rejoin next season ']"
+            },
+            "label": "Rejoin next season",
+            "number": 3,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6,
+            "optional": true
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertCount",
+          "label": "Physical Split available",
+          "locator": {
+            "selector": "tr:has(.workbench-multi-block-table__map--linked) [data-guide='multi-block-table-secondary-action'][aria-label^='Split Block ']:not(:disabled)"
+          },
+          "min": 1,
+          "visibleOnly": true
+        }
+      ]
+    }
+  ]
+}

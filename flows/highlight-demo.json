@@ -1,0 +1,43 @@
+{
+  "id": "highlight-demo",
+  "title": "Highlight Box Demo",
+  "description": "A small template showing multiple critical-element annotations in one screenshot.",
+  "steps": [
+    {
+      "heading": "Highlight critical controls",
+      "instruction": "Each critical control can be boxed, numbered, labelled, padded, and coloured independently.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "body"
+          }
+        }
+      ],
+      "capture": {
+        "file": "01-highlight-demo.png",
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='app-selection']"
+            },
+            "label": "Set the working context",
+            "color": "#0058a4",
+            "boxTimeoutMs": 10000
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='create-orchard']"
+            },
+            "label": "Create an Orchard",
+            "color": "#d92d20"
+          }
+        ]
+      }
+    }
+  ]
+}

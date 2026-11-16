@@ -1,0 +1,111 @@
+{
+  "id": "create-orchard-validation",
+  "title": "Understand Orchard creation requirements",
+  "description": "Review the required parent selection and disabled Continue state.",
+  "category": "Create records",
+  "order": 92,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Understand Orchard creation requirements",
+    "mode": "safe",
+    "dataGated": false
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Review required parent selection",
+      "instruction": "Start Create Orchard. Continue remains disabled until a valid parent Property is selected or entered.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-orchard']"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='entity-create-drawer']"
+          }
+        },
+        {
+          "type": "assertDisabled",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          }
+        }
+      ],
+      "capture": {
+        "file": "01-required-parent.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='property-source']"
+            },
+            "label": "Choose existing or new Property",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='property-selector']"
+            },
+            "label": "Required Property",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='create-continue-action'] button"
+            },
+            "label": "Continue disabled",
+            "number": 3,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          }
+        ]
+      },
+      "notes": [
+        "Required information must be complete before Continue becomes available."
+      ]
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='create-back-action'] button"
+      },
+      "timeoutMs": 1500
+    }
+  ]
+}

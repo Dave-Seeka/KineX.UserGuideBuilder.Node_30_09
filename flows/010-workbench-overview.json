@@ -1,0 +1,135 @@
+{
+  "id": "workbench-overview",
+  "title": "Orchard Workbench overview",
+  "description": "Identify the main Workbench regions and operational context.",
+  "category": "Getting started",
+  "order": 10,
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "A valid AppSelection Season is selected."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Open Orchard Workbench",
+      "instruction": "Confirm the AppSelection context before using the navigator or map.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForTimeout",
+          "ms": 1200
+        }
+      ],
+      "capture": {
+        "file": "01-overview.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='app-selection']"
+            },
+            "label": "Season, crop and country",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6,
+            "boxTimeoutMs": 10000
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='workbench-sidebar']"
+            },
+            "label": "Property, Orchard and Block navigator",
+            "number": 2,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='workbench-map-panel']"
+            },
+            "label": "ArcGIS map",
+            "number": 3,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='workbench-crud-header']"
+            },
+            "label": "Context actions",
+            "number": 4,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='workbench-business-form']"
+            },
+            "label": "Business details",
+            "number": 5,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6,
+            "optional": true
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertUrl",
+          "label": "Workbench route",
+          "contains": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "assertVisible",
+          "label": "AppSelection context",
+          "locator": {
+            "selector": "[data-guide='app-selection']"
+          }
+        },
+        {
+          "type": "assertVisible",
+          "label": "Workbench navigator",
+          "locator": {
+            "selector": "[data-guide='workbench-sidebar']"
+          }
+        },
+        {
+          "type": "assertVisible",
+          "label": "ArcGIS map",
+          "locator": {
+            "selector": "[data-guide='workbench-map-panel']"
+          }
+        }
+      ]
+    }
+  ],
+  "profiles": [
+    "smoke",
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Orchard Workbench overview",
+    "mode": "safe",
+    "dataGated": true
+  }
+}

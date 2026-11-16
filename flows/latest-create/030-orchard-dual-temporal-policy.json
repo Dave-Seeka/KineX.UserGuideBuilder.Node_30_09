@@ -1,0 +1,532 @@
+{
+  "id": "latest-orchard-dual-temporal-policy",
+  "title": "Verify separate Property and Orchard temporal policies",
+  "description": "Verify a new parent Property keeps its country/season range while the Orchard resolves its crop-specific range.",
+  "category": "Latest create regression",
+  "order": 30,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Separate Property and Orchard effective-date contexts",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This regression flow stops before Review and does not submit, publish or delete records.",
+  "prerequisites": [
+    "Permission to create Orchards and Properties.",
+    "The selected app season has a valid Property definition for the selected country.",
+    "The selected app season has a valid Orchard definition for at least one crop in that country."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Resolve the new Property context",
+      "instruction": "Choose Create new Property, select its country and complete a manual address. Record the Property date before Orchard crop resolution.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='create-orchard']"
+          },
+          "minCount": 1,
+          "timeoutMs": 10000,
+          "message": "Create Orchard is unavailable for the current permission or scope."
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-orchard']"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='entity-create-drawer'][data-guide-entity='orchard']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "skipIfVisible",
+          "locator": {
+            "text": "Create-form options are temporarily rate limited"
+          },
+          "message": "Create-form options are temporarily rate limited.",
+          "timeoutMs": 2000
+        },
+        {
+          "type": "selectOption",
+          "locator": {
+            "selector": "[data-guide='property-source']"
+          },
+          "value": "new",
+          "timeoutMs": 20000,
+          "label": "Create new"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='property-country']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "selectFirstOption",
+          "locator": {
+            "selector": "[data-guide='property-country']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='property-effective-date'] input[type='date']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "rememberAttribute",
+          "key": "newPropertyMin",
+          "name": "min",
+          "locator": {
+            "selector": "[data-guide='property-effective-date'] input[type='date']"
+          }
+        },
+        {
+          "type": "rememberAttribute",
+          "key": "newPropertyMax",
+          "name": "max",
+          "locator": {
+            "selector": "[data-guide='property-effective-date'] input[type='date']"
+          }
+        },
+        {
+          "type": "rememberValue",
+          "key": "newPropertyDate",
+          "locator": {
+            "selector": "[data-guide='property-effective-date'] input[type='date']"
+          }
+        },
+        {
+          "type": "evaluate",
+          "script": "(() => { const input = document.querySelector(\"[data-guide='property-effective-date'] input[type='date']\"); if (!input) throw new Error('New Property effective-date input was not found.'); const { min, max, value } = input; if (!min || !max || !value) throw new Error(`New Property temporal context did not resolve: min='${min}', max='${max}', value='${value}'.`); if (value < min || value > max) throw new Error(`New Property date ${value} is outside ${min} - ${max}.`); })()"
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='address-manual-options-button']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='address-manual-options']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='address-create-new']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='address-manual-fields']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='address-line-1'] input"
+          },
+          "value": "{{guideData.manualAddressLine1}}"
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='address-line-2'] input"
+          },
+          "value": "{{guideData.manualAddressLine2}}"
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='address-suburb'] input"
+          },
+          "value": "{{guideData.manualSuburb}}"
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='address-city'] input"
+          },
+          "value": "{{guideData.manualCity}}"
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='address-region'] input"
+          },
+          "value": "{{guideData.manualRegion}}"
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='address-postal-code'] input"
+          },
+          "value": "{{guideData.manualPostalCode}}"
+        }
+      ],
+      "checks": [
+        {
+          "type": "assertEnabled",
+          "label": "New Property effective date resolved before Orchard details",
+          "locator": {
+            "selector": "[data-guide='property-effective-date'] input[type='date']"
+          }
+        },
+        {
+          "type": "assertValue",
+          "label": "New Property effective date has a value",
+          "locator": {
+            "selector": "[data-guide='property-effective-date'] input[type='date']"
+          },
+          "matches": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      ],
+      "capture": {
+        "file": "01-property-context.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='property-country']"
+            },
+            "label": "Property country",
+            "number": 1,
+            "color": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='property-effective-date']"
+            },
+            "label": "Property temporal context",
+            "number": 2,
+            "color": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Resolve the crop-specific Orchard context",
+      "instruction": "Continue to Orchard details, enter identity fields and select a crop. The Orchard date resolves independently.",
+      "actions": [
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-details-step']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "selectFirstOption",
+          "locator": {
+            "selector": "[data-guide='orchard-crop']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "fillValidOrchardPin",
+          "locator": {
+            "selector": "[data-guide='orchard-pin'] input"
+          },
+          "cropLocator": {
+            "selector": "[data-guide='orchard-crop']"
+          },
+          "prefix": "{{guideData.orchardPin}}",
+          "timeoutMs": 20000
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='orchard-name'] input"
+          },
+          "value": "{{guideData.orchardName}} {{runId}}"
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='orchard-effective-date'] input[type='date']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "rememberAttribute",
+          "key": "orchardMin",
+          "name": "min",
+          "locator": {
+            "selector": "[data-guide='orchard-effective-date'] input[type='date']"
+          }
+        },
+        {
+          "type": "rememberAttribute",
+          "key": "orchardMax",
+          "name": "max",
+          "locator": {
+            "selector": "[data-guide='orchard-effective-date'] input[type='date']"
+          }
+        },
+        {
+          "type": "rememberValue",
+          "key": "orchardDate",
+          "locator": {
+            "selector": "[data-guide='orchard-effective-date'] input[type='date']"
+          }
+        },
+        {
+          "type": "evaluate",
+          "script": "(() => { const input = document.querySelector(\"[data-guide='orchard-effective-date'] input[type='date']\"); if (!input) throw new Error('Orchard effective-date input was not found.'); const { min, max, value } = input; if (!min || !max || !value) throw new Error(`Crop-specific Orchard context did not resolve: min='${min}', max='${max}', value='${value}'.`); if (value < min || value > max) throw new Error(`Orchard date ${value} is outside ${min} - ${max}.`); })()"
+        }
+      ],
+      "checks": [
+        {
+          "type": "assertVisible",
+          "label": "Crop remains an Orchard requirement",
+          "locator": {
+            "selector": "[data-guide='orchard-crop']"
+          }
+        },
+        {
+          "type": "assertEnabled",
+          "label": "Orchard effective date resolved from crop context",
+          "locator": {
+            "selector": "[data-guide='orchard-effective-date'] input[type='date']"
+          }
+        },
+        {
+          "type": "assertValue",
+          "label": "Orchard effective date has a value",
+          "locator": {
+            "selector": "[data-guide='orchard-effective-date'] input[type='date']"
+          },
+          "matches": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      ],
+      "capture": {
+        "file": "02-orchard-context.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-crop']"
+            },
+            "label": "Crop-specific policy",
+            "number": 1,
+            "color": "#b45309",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-effective-date']"
+            },
+            "label": "Orchard temporal context",
+            "number": 2,
+            "color": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Verify the Property context was not overwritten",
+      "instruction": "Return to the parent step. The Property range and effective date must match the values resolved before the Orchard crop was applied.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-back-action'] button"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-parent-step']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "checks": [
+        {
+          "type": "assertAttribute",
+          "label": "Property minimum remained independent",
+          "locator": {
+            "selector": "[data-guide='property-effective-date'] input[type='date']"
+          },
+          "name": "min",
+          "exact": "{{newPropertyMin}}"
+        },
+        {
+          "type": "assertAttribute",
+          "label": "Property maximum remained independent",
+          "locator": {
+            "selector": "[data-guide='property-effective-date'] input[type='date']"
+          },
+          "name": "max",
+          "exact": "{{newPropertyMax}}"
+        },
+        {
+          "type": "assertValue",
+          "label": "Property date was not replaced by Orchard date",
+          "locator": {
+            "selector": "[data-guide='property-effective-date'] input[type='date']"
+          },
+          "exactText": "{{newPropertyDate}}"
+        },
+        {
+          "type": "assertText",
+          "label": "Previous returned to Cancel",
+          "locator": {
+            "selector": "[data-guide='create-back-action'] button"
+          },
+          "exactText": "Cancel"
+        }
+      ],
+      "capture": {
+        "file": "03-property-context-preserved.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='property-effective-date']"
+            },
+            "label": "Independent Property context preserved",
+            "number": 1,
+            "color": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='create-back-action'] button"
+            },
+            "label": "Cancel",
+            "number": 2,
+            "color": "#d92d20",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Cancel the combined create flow",
+      "instruction": "Close the drawer without creating either record.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-back-action'] button"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='entity-create-drawer']"
+          },
+          "state": "hidden",
+          "timeoutMs": 10000
+        }
+      ],
+      "checks": [
+        {
+          "type": "assertNoToast",
+          "label": "No Property or Orchard was created",
+          "contains": "created",
+          "durationMs": 1000
+        }
+      ],
+      "capture": {
+        "file": "04-combined-flow-cancelled.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='create-orchard']"
+            },
+            "label": "Create Orchard available",
+            "number": 1,
+            "color": "#0058a4",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='create-back-action'] button"
+      },
+      "timeoutMs": 1000
+    },
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='create-back-action'] button"
+      },
+      "timeoutMs": 1000
+    },
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='create-back-action'] button"
+      },
+      "timeoutMs": 1000
+    },
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='create-back-action'] button"
+      },
+      "timeoutMs": 1000
+    }
+  ]
+}

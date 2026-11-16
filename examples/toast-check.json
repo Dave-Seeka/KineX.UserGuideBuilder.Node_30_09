@@ -1,0 +1,29 @@
+{
+  "heading": "Save the change",
+  "instruction": "Save the record and confirm that KineX reports the successful outcome.",
+  "actions": [
+    {
+      "type": "click",
+      "locator": { "role": "button", "name": "Save changes", "exact": true }
+    }
+  ],
+  "checks": [
+    {
+      "type": "assertToast",
+      "label": "Success notification",
+      "contains": "saved",
+      "tone": "success",
+      "timeoutMs": 15000
+    },
+    {
+      "type": "assertHidden",
+      "label": "Edit form closed",
+      "locator": { "selector": "[data-guide='business-form-shell']" },
+      "timeoutMs": 15000
+    }
+  ],
+  "capture": {
+    "file": "saved.png",
+    "highlights": []
+  }
+}

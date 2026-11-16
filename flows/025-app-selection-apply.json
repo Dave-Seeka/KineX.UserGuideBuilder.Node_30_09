@@ -1,0 +1,124 @@
+{
+  "id": "app-selection-apply",
+  "title": "Apply the current AppSelection",
+  "description": "Apply the current Season, Crop and Country and wait for the Workbench scope to refresh.",
+  "category": "Getting started",
+  "order": 25,
+  "profiles": [
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Apply the current AppSelection",
+    "mode": "safe",
+    "dataGated": false
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Apply the current scope",
+      "instruction": "Open AppSelection and select Apply without changing the current values.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='app-selection']"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='app-selection-modal']"
+          }
+        },
+        {
+          "type": "assertEnabled",
+          "locator": {
+            "selector": "[data-guide='app-selection-apply']"
+          }
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='app-selection-apply']"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='app-selection-modal']"
+          },
+          "state": "hidden",
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        }
+      ],
+      "capture": {
+        "file": "01-applied.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='app-selection']"
+            },
+            "label": "Applied scope",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='workbench-sidebar']"
+            },
+            "label": "Refreshed navigator",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertHidden",
+          "label": "Selection dialog closed",
+          "locator": {
+            "selector": "[data-guide='app-selection-modal']"
+          }
+        },
+        {
+          "type": "assertVisible",
+          "label": "Navigator available",
+          "locator": {
+            "selector": "[data-guide='workbench-sidebar']"
+          }
+        }
+      ]
+    }
+  ]
+}

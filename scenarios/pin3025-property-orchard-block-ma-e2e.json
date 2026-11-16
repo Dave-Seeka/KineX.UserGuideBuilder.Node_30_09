@@ -1,0 +1,125 @@
+{
+  "id": "pin3025-property-orchard-block-ma-e2e",
+  "foundationFlow": "./flows/295-block-hectares-e2e-fixture.json",
+  "geometryFixture": "./fixtures/block-hectares-pin-3025.json",
+  "migrationSource": {
+    "dataset": "CAB/KineX spatial migration review (2027)",
+    "sourceCsv": "output/cab-2027-review/Orchards/business-gis-block-review.csv",
+    "sourceOrchardKey": "ORCHARD:31404|CROP:KIWIFRUIT",
+    "sourceOrchardId": "31404",
+    "sourcePin": "3025",
+    "countryCode": "NZ",
+    "cropCode": "KIWIFRUIT",
+    "season": "2027",
+    "sourceEffectiveDate": "2026-07-01",
+    "propertyGlobalId": "bf2f50b0-53ef-47f1-9eb9-2347417ea477",
+    "spatialReferenceWkid": 2193,
+    "crosswalkStatus": "crosswalk_candidate",
+    "approvalStatus": "not-recorded",
+    "orchardGeometryOrigin": "derived-inset-not-source",
+    "maturityAreaSourceStatus": "not-present-in-reviewed-csv",
+    "blocks": [
+      {
+        "name": "PIN3025-E2E-1",
+        "sourceKey": "ORCHARD:31404|CROP:KIWIFRUIT|BLOCK:1",
+        "sourceBlockCode": "1",
+        "sourcePhysicalAreaId": "297807",
+        "candidateGisGlobalId": "840700ef-3c6e-4fbf-8359-fa15b22d653c",
+        "sourceHash": "b7295e380df8737052f83d3238840a7242301071dbbcb8e16bcdf946a2e0aa38",
+        "sourceGisAreaHectares": 0.285932,
+        "businessAreaHectares": "0.29",
+        "gisStatusCode": "1",
+        "propertyOverlapStatus": "inside",
+        "propertyOverlapPercent": 100.0,
+        "geometryRingSha256": "77727eede9c81e2ff920afeb3e5c291212236c2426543f79c478be4eb2e020bb"
+      },
+      {
+        "name": "PIN3025-E2E-2",
+        "sourceKey": "ORCHARD:31404|CROP:KIWIFRUIT|BLOCK:2",
+        "sourceBlockCode": "2",
+        "sourcePhysicalAreaId": "297808",
+        "candidateGisGlobalId": "f9ff2570-e7c1-43e0-b337-d3be90ba98e2",
+        "sourceHash": "9ff41727561fad87095d8d4a205e36d3c87e823b9b4286c70d97915477b2b6b0",
+        "sourceGisAreaHectares": 0.613218,
+        "businessAreaHectares": "0.61",
+        "gisStatusCode": "1",
+        "propertyOverlapStatus": "inside",
+        "propertyOverlapPercent": 100.0,
+        "geometryRingSha256": "a5311b78c7196167a1ebc6d21e8540bf28d584539096069d157c2f1a955bdaa0"
+      },
+      {
+        "name": "PIN3025-E2E-3",
+        "sourceKey": "ORCHARD:31404|CROP:KIWIFRUIT|BLOCK:3",
+        "sourceBlockCode": "3",
+        "sourcePhysicalAreaId": "297809",
+        "candidateGisGlobalId": "50644169-ae52-43b4-a0e9-f314278c0574",
+        "sourceHash": "8e74d02f233e342d2ea1268524119e6fe1a7e8bba2fe7f301b39a84b1fded15e",
+        "sourceGisAreaHectares": 1.563477,
+        "businessAreaHectares": "1.50",
+        "gisStatusCode": "1",
+        "propertyOverlapStatus": "inside",
+        "propertyOverlapPercent": 100.0,
+        "geometryRingSha256": "9f42d2dbd7308acb447ab2089f8a3e34bbcf195a5eaf478af53769efd451af42"
+      },
+      {
+        "name": "PIN3025-E2E-4",
+        "sourceKey": "ORCHARD:31404|CROP:KIWIFRUIT|BLOCK:4",
+        "sourceBlockCode": "4",
+        "sourcePhysicalAreaId": "297810",
+        "candidateGisGlobalId": "db732146-fed4-432f-90e5-b2058ce05773",
+        "sourceHash": "ad5fc2197b10a88424fe661fa156fc5074fd8e293c703ff24215b38f0afa9ba0",
+        "sourceGisAreaHectares": 0.704946,
+        "businessAreaHectares": "0.70",
+        "gisStatusCode": "1",
+        "propertyOverlapStatus": "inside",
+        "propertyOverlapPercent": 100.0,
+        "geometryRingSha256": "690588eb62271bd559a92c0b37ce19449321aaf93dd59c7ac036d43d5d1c97d1"
+      }
+    ],
+    "propertyRingSha256": "7dbe685543cce7792273893b1f825f2a5cf7434161e4879f64f766effef8548e"
+  },
+  "testValuePolicy": {
+    "propertyAddress": "synthetic-guide-owned-address-not-imported-from-csv",
+    "orchardPin": "new-unique-4-character-test-pin-not-source-3025",
+    "blockBusinessArea": "explicit-test-input-mapped-to-source-geometries",
+    "productionStatus": "PROD-is-KineX-reference-data-not-mapped-from-GIS-status-1",
+    "unsourcedReferenceFields": "use-enabled-test-tenant-reference-values-and-validate-eligibility",
+    "maCodesAndProfileEdits": "generated-unique-test-values-not-imported-ma-records",
+    "growerSupplier": "run-owned synthetic Entity created/reused by exact name via KineX Entity create UI; EntityCode is server-generated, not the migration source"
+  },
+  "growerSupplier": {
+    "mode": "createOrReuseTestEntity",
+    "entityNameSearch": "{{mutations.testPrefix}} PIN3025 Supplier {{runId}}",
+    "entityCode": "AUTO",
+    "countryAliases": [
+      "New Zealand",
+      "NZ"
+    ],
+    "fifthCharacter": "Z",
+    "entityTypeAliases": [
+      "Company",
+      "COMPANY"
+    ]
+  },
+  "maturityAreas": [
+    {
+      "initialCode": "M{{runId}}",
+      "editedCode": "E{{runId}}",
+      "initialBlockName": "PIN3025-E2E-1",
+      "additionalBlockName": "PIN3025-E2E-2",
+      "initialSourcePhysicalAreaId": "297807",
+      "additionalSourcePhysicalAreaId": "297808",
+      "dataOrigin": "test-created-ma-using-source-derived-block-relationships"
+    },
+    {
+      "initialCode": "N{{runId}}",
+      "editedCode": "F{{runId}}",
+      "initialBlockName": "PIN3025-E2E-3",
+      "additionalBlockName": "PIN3025-E2E-4",
+      "initialSourcePhysicalAreaId": "297809",
+      "additionalSourcePhysicalAreaId": "297810",
+      "dataOrigin": "test-created-ma-using-source-derived-block-relationships"
+    }
+  ],
+  "testPrefix": "KINEX-E2E"
+}

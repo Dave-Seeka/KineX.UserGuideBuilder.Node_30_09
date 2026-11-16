@@ -1,0 +1,206 @@
+{
+  "id": "block-inspector-tabs",
+  "title": "Use Block Business Form views",
+  "description": "Review Block Overview, Maturity Area allocation and Activity from one canonical selection.",
+  "category": "View details",
+  "order": 86,
+  "profiles": [
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Use Block inspector tabs",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "At least one Orchard has a Block."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Open Block Overview",
+      "instruction": "Select a Block and review its profile.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "clickCandidateUntil",
+          "locator": {
+            "selector": "[data-guide='open-blocks']"
+          },
+          "successLocator": {
+            "selector": "[data-guide='block-select']"
+          },
+          "resetLocator": {
+            "selector": "[data-guide='back-to-orchards']"
+          },
+          "returnLocator": {
+            "selector": "[data-guide='orchard-navigator']"
+          },
+          "minCount": 1,
+          "perCandidateTimeoutMs": 4000,
+          "timeoutMs": 45000,
+          "message": "No Orchard with at least 1 Block is available."
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='block-select']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='block']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "01-overview.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "role": "tab",
+              "name": "Overview",
+              "exact": true
+            },
+            "label": "Overview",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-content']"
+            },
+            "label": "Block profile",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Review Allocation",
+      "instruction": "Allocation shows the Block’s current Maturity Area assignment and assignment controls.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "role": "tab",
+            "name": "Allocation",
+            "exact": true
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-allocation-content']"
+          }
+        }
+      ],
+      "capture": {
+        "file": "02-allocation.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "role": "tab",
+              "name": "Allocation",
+              "exact": true
+            },
+            "label": "Allocation",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='block-maturity-area']"
+            },
+            "label": "Maturity Area assignment",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6,
+            "optional": true
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Review Activity",
+      "instruction": "Activity shows effective history, including Pick strategy audit entries when present.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "role": "tab",
+            "name": "Activity",
+            "exact": true
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-activity-content']"
+          }
+        }
+      ],
+      "capture": {
+        "file": "03-activity.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "role": "tab",
+              "name": "Activity",
+              "exact": true
+            },
+            "label": "Activity",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-activity-content']"
+            },
+            "label": "Block activity",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ]
+}

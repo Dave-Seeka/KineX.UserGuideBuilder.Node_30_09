@@ -1,0 +1,334 @@
+{
+  "id": "orchard-inspector-tabs",
+  "title": "Use Orchard Business Form views",
+  "description": "Move between Orchard Overview, Maturity Areas, Grower supply, Variety areas and Activity.",
+  "category": "View details",
+  "order": 85,
+  "profiles": [
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Use Orchard inspector tabs",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "At least one Orchard is available and the relevant view permissions are granted."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Open Orchard Overview",
+      "instruction": "Select an Orchard. Overview contains the current business profile while the action ribbon remains separate.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='orchard-select']"
+          },
+          "minCount": 1,
+          "message": "No Orchard is available.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='orchard-select']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "01-overview.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "role": "tab",
+              "name": "Overview",
+              "exact": true
+            },
+            "label": "Overview",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-action-ribbon']"
+            },
+            "label": "Available actions",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6,
+            "optional": true
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-content']"
+            },
+            "label": "Orchard profile",
+            "number": 3,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Review Maturity Areas",
+      "instruction": "Maturity Areas lists the MAs in the selected Orchard without changing Orchard context.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "role": "tab",
+            "name": "Maturity Areas"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-additional-tab-content']"
+          },
+          "timeoutMs": 10000
+        }
+      ],
+      "capture": {
+        "file": "02-maturity-areas.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "role": "tab",
+              "name": "Maturity Areas"
+            },
+            "label": "Maturity Areas",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-additional-tab-content']"
+            },
+            "label": "Orchard MA list",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertAttribute",
+          "label": "maturity-areas tab active",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard']"
+          },
+          "name": "data-guide-tab",
+          "exact": "maturity-areas"
+        }
+      ]
+    },
+    {
+      "heading": "Review Grower supply",
+      "instruction": "Grower supply shows the effective Grower Supply links for the selected Orchard.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "role": "tab",
+            "name": "Grower supply"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-additional-tab-content']"
+          },
+          "timeoutMs": 10000
+        }
+      ],
+      "capture": {
+        "file": "03-grower-supply.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "role": "tab",
+              "name": "Grower supply"
+            },
+            "label": "Grower supply",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-additional-tab-content']"
+            },
+            "label": "Grower Supply links",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertAttribute",
+          "label": "grower-supplies tab active",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard']"
+          },
+          "name": "data-guide-tab",
+          "exact": "grower-supplies"
+        }
+      ]
+    },
+    {
+      "heading": "Review Variety Areas",
+      "instruction": "Variety Areas shows the computed Variety Area view for the selected Orchard and season.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "role": "tab",
+            "name": "Variety Areas",
+            "exact": true
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-additional-tab-content']"
+          },
+          "timeoutMs": 15000
+        }
+      ],
+      "capture": {
+        "file": "04-variety-areas.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "role": "tab",
+              "name": "Variety Areas",
+              "exact": true
+            },
+            "label": "Variety Areas",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-additional-tab-content']"
+            },
+            "label": "Variety Area view",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertAttribute",
+          "label": "variety-areas tab active",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard']"
+          },
+          "name": "data-guide-tab",
+          "exact": "variety-areas"
+        }
+      ]
+    },
+    {
+      "heading": "Review Activity",
+      "instruction": "Activity shows effective history and audit events for the selected Orchard.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "role": "tab",
+            "name": "Activity",
+            "exact": true
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-activity-content']"
+          }
+        }
+      ],
+      "capture": {
+        "file": "05-activity.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "role": "tab",
+              "name": "Activity",
+              "exact": true
+            },
+            "label": "Activity",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-activity-content']"
+            },
+            "label": "Orchard activity",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ]
+}

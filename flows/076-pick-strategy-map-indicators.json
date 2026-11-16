@@ -1,0 +1,131 @@
+{
+  "id": "pick-strategy-map-indicators",
+  "title": "Show Pick strategy indicators",
+  "description": "Show or hide Split Pick and Select Pick indicators without changing Block or MA geometry.",
+  "category": "Map tools",
+  "order": 76,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Show Pick strategy indicators",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "Map layer controls are available."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Open layer indicators",
+      "instruction": "Open Layers and find the Pick strategies indicator control.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='map-layers-menu-button']"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='map-layers-menu']"
+          }
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='map-indicator-pick-strategies']"
+          },
+          "minCount": 1,
+          "message": "Pick strategy indicators are unavailable."
+        }
+      ],
+      "capture": {
+        "file": "01-indicators.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='map-indicator-pick-strategies']"
+            },
+            "label": "Pick strategies",
+            "number": 1,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Toggle indicators",
+      "instruction": "Toggle Pick strategy indicators, then restore the original setting before leaving the guide.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='map-indicator-pick-strategies']"
+          }
+        },
+        {
+          "type": "waitForTimeout",
+          "ms": 500
+        }
+      ],
+      "capture": {
+        "file": "02-toggled.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='map-indicator-pick-strategies']"
+            },
+            "label": "Indicator visibility",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='map-indicator-pick-strategies']"
+      },
+      "timeoutMs": 1000
+    },
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='map-layers-menu-button']"
+      },
+      "timeoutMs": 1000
+    }
+  ]
+}

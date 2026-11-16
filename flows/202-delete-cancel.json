@@ -1,0 +1,119 @@
+{
+  "id": "delete-cancel",
+  "title": "Cancel record deletion",
+  "description": "Close an Orchard delete confirmation and verify no deletion notification appears.",
+  "category": "Delete records",
+  "order": 202,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Cancel record deletion",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "An Orchard is available and the user can open delete confirmation."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Cancel deletion",
+      "instruction": "Select an Orchard, open Delete, then choose Cancel.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='orchard-select']"
+          },
+          "minCount": 1,
+          "message": "No Orchard is available."
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='orchard-select']"
+          }
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='context-delete-action']"
+          },
+          "minCount": 1,
+          "message": "Orchard delete is unavailable."
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='context-delete-action']"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='delete-dialog']"
+          }
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='delete-cancel'] button"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='delete-dialog']"
+          },
+          "state": "hidden",
+          "timeoutMs": 10000
+        }
+      ],
+      "capture": {
+        "file": "01-cancelled.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-shell']"
+            },
+            "label": "Record remains selected",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertNoToast",
+          "label": "No deletion notification",
+          "contains": "Deleted",
+          "durationMs": 1500
+        }
+      ]
+    }
+  ]
+}

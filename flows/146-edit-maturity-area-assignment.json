@@ -1,0 +1,208 @@
+{
+  "id": "edit-maturity-area-assignment",
+  "title": "Edit Maturity Area Block assignment",
+  "description": "Open the MA Allocation view, schedule an assignment change and cancel without saving.",
+  "category": "Edit records",
+  "order": 146,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Edit Maturity Area Block assignment",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "An editable Maturity Area with Block options is available."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Open MA Allocation",
+      "instruction": "Select an MA and open Allocation to review its effective Block membership.",
+      "actions": [
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "button[role='tab'][title='Maturity Areas']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='maturity-area-navigator']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": ".workbench-ma-row button[aria-label^='Select Maturity Area ']"
+          },
+          "minCount": 1,
+          "message": "No Maturity Area is available for the selected scope.",
+          "timeoutMs": 15000
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": ".workbench-ma-row button[aria-label^='Select Maturity Area ']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='maturity area']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "role": "tab",
+            "name": "Allocation",
+            "exact": true
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='ma-blocks-tab']"
+          }
+        },
+        {
+          "type": "require",
+          "locator": {
+            "role": "button",
+            "name": "Edit assignment",
+            "exact": true
+          },
+          "minCount": 1,
+          "message": "MA assignment editing is unavailable."
+        }
+      ],
+      "capture": {
+        "file": "01-allocation.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='ma-blocks-tab']"
+            },
+            "label": "Block membership",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "role": "button",
+              "name": "Edit assignment",
+              "exact": true
+            },
+            "label": "Edit assignment",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Schedule assignment change",
+      "instruction": "Choose Edit assignment, confirm the effective date, and review assignment checkboxes without saving.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "role": "button",
+            "name": "Edit assignment",
+            "exact": true
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='schedule-change-modal']"
+          }
+        },
+        {
+          "type": "clickIfVisible",
+          "locator": {
+            "role": "button",
+            "name": "Use viewed state",
+            "exact": true
+          },
+          "timeoutMs": 1500
+        },
+        {
+          "type": "click",
+          "locator": {
+            "role": "button",
+            "name": "Continue",
+            "exact": true
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "input[aria-label^='Assign Block ']"
+          },
+          "timeoutMs": 15000
+        }
+      ],
+      "capture": {
+        "file": "02-editor.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "input[aria-label^='Assign Block ']"
+            },
+            "label": "Assign Blocks",
+            "number": 1,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6,
+            "optional": true
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='business-edit-cancel'] button"
+            },
+            "label": "Cancel",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='business-edit-cancel'] button"
+      },
+      "timeoutMs": 1500
+    }
+  ]
+}

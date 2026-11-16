@@ -1,0 +1,228 @@
+{
+  "id": "map-selection-tools",
+  "title": "Use map selection tools",
+  "description": "Choose automatic or entity-specific map selection.",
+  "category": "Map tools",
+  "order": 60,
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Review navigation tools",
+      "instruction": "Use Home, Zoom and Browse to position the map.",
+      "actions": [
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "waitForTimeout",
+          "ms": 1200
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='workbench-map-toolbar']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "01-navigation.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='map-tool-home']"
+            },
+            "label": "Home",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='map-tool-zoom-in']"
+            },
+            "label": "Zoom in",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='map-tool-zoom-out']"
+            },
+            "label": "Zoom out",
+            "number": 3,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='map-tool-pan']"
+            },
+            "label": "Browse",
+            "number": 4,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Choose a target type",
+      "instruction": "Open Select and choose Property, Orchard or Block.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='map-tool-select']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='map-select-menu']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "02-select-menu.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='map-select-property']"
+            },
+            "label": "Properties",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='map-select-orchard']"
+            },
+            "label": "Orchards",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='map-select-block']"
+            },
+            "label": "Blocks",
+            "number": 3,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Activate Orchard selection",
+      "instruction": "The map prompt explains the active map interaction.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='map-select-orchard']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='map-selection-prompt']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "03-prompt.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='map-tool-select']"
+            },
+            "label": "Active tool",
+            "number": 1,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='map-selection-prompt']"
+            },
+            "label": "Map instruction",
+            "number": 2,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='map-tool-clear-selection']"
+            },
+            "label": "Clear selection",
+            "number": 3,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='map-tool-clear-selection']"
+      },
+      "timeoutMs": 1500
+    },
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='map-tool-pan']"
+      },
+      "timeoutMs": 1500
+    }
+  ],
+  "profiles": [
+    "smoke",
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Use map selection tools",
+    "mode": "safe",
+    "dataGated": false
+  }
+}

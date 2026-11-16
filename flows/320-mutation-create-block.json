@@ -1,0 +1,248 @@
+{
+  "id": "mutation-create-block",
+  "title": "Verify Block create notifications",
+  "description": "Create a guide-owned Block using the current auto-code wizard and verify the creation notification.",
+  "category": "Mutation verification",
+  "order": 320,
+  "profiles": [
+    "mutation"
+  ],
+  "mutation": true,
+  "coverage": {
+    "capability": "Verify Block create notifications",
+    "mode": "mutation",
+    "dataGated": true
+  },
+  "safety": "This verification flow creates a guide-owned Block. The mutation cleanup flows remove it before deleting the guide-owned Orchard.",
+  "prerequisites": [
+    "Run after the mutation create-Orchard flow in a disposable environment with Block create/delete permissions."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Create a test Block",
+      "instruction": "Create a Block beneath the first suitable Orchard.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "button[role='tab'][title='Orchards']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-navigator']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='orchard-search']"
+          },
+          "value": "{{mutations.testPrefix}} Orchard"
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='orchard-select']"
+          },
+          "minCount": 1,
+          "message": "No guide-owned Orchard is available for Block creation.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='orchard-select']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='context-create-action'][data-guide-create-entity='block'][data-guide-parent-id]"
+          },
+          "minCount": 1,
+          "message": "Create Block is unavailable until the selected Orchard context is stable.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "clickUntilVisible",
+          "locator": {
+            "selector": "[data-guide='context-create-action'][data-guide-create-entity='block'][data-guide-parent-id]"
+          },
+          "successLocator": {
+            "selector": "[data-guide='entity-create-drawer'][data-guide-entity='block']"
+          },
+          "timeoutMs": 30000,
+          "perAttemptTimeoutMs": 1500,
+          "message": "Create Block did not open after the Orchard selection settled."
+        },
+        {
+          "type": "skipIfVisible",
+          "locator": {
+            "text": "Create-form options are temporarily rate limited"
+          },
+          "message": "Create-form options are temporarily rate limited. Close the form and try again shortly.",
+          "timeoutMs": 2000
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='block-name'] input"
+          },
+          "value": "{{mutations.testPrefix}}-B-{{runId}} Guide Block",
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          }
+        },
+        {
+          "type": "selectFirstOption",
+          "locator": {
+            "label": "Production status *"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          }
+        },
+        {
+          "type": "selectFirstOption",
+          "locator": {
+            "label": "Cover status *"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='block-review-step']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='create-submit-action'] button"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-submit-action'] button"
+          }
+        },
+        {
+          "type": "assertToast",
+          "contains": "created in KineX",
+          "tone": "success",
+          "timeoutMs": 30000
+        },
+        {
+          "type": "clickIfVisible",
+          "locator": {
+            "selector": "[data-guide='geometry-add-later']"
+          },
+          "timeoutMs": 5000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='block']"
+          },
+          "timeoutMs": 30000
+        }
+      ],
+      "capture": {
+        "file": "01-created.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-shell']"
+            },
+            "label": "Created Block",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertAttribute",
+          "label": "Created Block shown in view mode",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='block']"
+          },
+          "name": "data-guide-mode",
+          "exact": "view"
+        }
+      ]
+    }
+  ]
+}

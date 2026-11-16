@@ -1,0 +1,423 @@
+{
+  "id": "create-orchard-existing-property",
+  "title": "Create Orchard under an existing Property",
+  "description": "Complete the creation wizard through Review without submitting.",
+  "category": "Create records",
+  "order": 90,
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "Permission to create Orchards.",
+    "At least one Property is available."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Choose the parent Property",
+      "instruction": "Start Create Orchard and use an existing Property.",
+      "actions": [
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForTimeout",
+          "ms": 1200
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='create-orchard']:not(:disabled)"
+          },
+          "message": "Create Orchard is temporarily unavailable for the current session.",
+          "minCount": 1,
+          "timeoutMs": 10000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-orchard']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='entity-create-drawer']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "skipIfVisible",
+          "locator": {
+            "text": "Create-form options are temporarily rate limited"
+          },
+          "message": "Create-form options are temporarily rate limited. Close the form and try again shortly.",
+          "timeoutMs": 2000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='property-selector']"
+          },
+          "message": "The Property selector is unavailable.",
+          "minCount": 1,
+          "timeoutMs": 10000
+        }
+      ],
+      "capture": {
+        "file": "01-parent.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='property-source']"
+            },
+            "label": "Property source",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='property-selector']"
+            },
+            "label": "Parent Property",
+            "number": 2,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='create-continue-action'] button"
+            },
+            "label": "Continue",
+            "number": 3,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Enter Orchard details",
+      "instruction": "Select a Property, then enter PIN, name and crop.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='property-search'] input"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='property-option']"
+          },
+          "minCount": 1,
+          "message": "No selectable Parent Property is available.",
+          "timeoutMs": 30000
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='property-option']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-details-step']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "selectFirstOptionIfEmpty",
+          "locator": {
+            "selector": "[data-guide='orchard-crop']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "fillValidOrchardPin",
+          "locator": {
+            "selector": "[data-guide='orchard-pin'] input"
+          },
+          "cropLocator": {
+            "selector": "[data-guide='orchard-crop']"
+          },
+          "prefix": "{{guideData.orchardPin}}",
+          "timeoutMs": 20000
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='orchard-name'] input"
+          },
+          "value": "{{guideData.orchardName}} {{runId}}",
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "02-details.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-parent-context']"
+            },
+            "label": "Parent Property",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-pin']"
+            },
+            "label": "PIN",
+            "number": 2,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-name']"
+            },
+            "label": "Name",
+            "number": 3,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-crop']"
+            },
+            "label": "Crop",
+            "number": 4,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-season-context']"
+            },
+            "label": "AppSelection Season",
+            "number": 5,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Add operational details",
+      "instruction": "Add optional region, status and access information.",
+      "actions": [
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-additional-step']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='orchard-access-instructions'] input"
+          },
+          "value": "{{guideData.accessInstructions}}",
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "03-additional.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-growing-region']"
+            },
+            "label": "Growing region",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6,
+            "optional": true
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-status']"
+            },
+            "label": "Status",
+            "number": 2,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6,
+            "optional": true
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-access-instructions']"
+            },
+            "label": "Access instructions",
+            "number": 3,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-gate-lock']"
+            },
+            "label": "Gate or lock",
+            "number": 4,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Review the Orchard",
+      "instruction": "Confirm all details. Do not select Create during guide capture.",
+      "actions": [
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-review-step']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "04-review.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-review-step']"
+            },
+            "label": "Review",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='create-submit-action'] button"
+            },
+            "label": "Create after confirmation",
+            "number": 2,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertVisible",
+          "label": "Orchard review",
+          "locator": {
+            "selector": "[data-guide='orchard-review-step']"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='create-cancel-action'] button"
+      },
+      "timeoutMs": 1500,
+      "force": true
+    },
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='create-back-action'] button"
+      },
+      "timeoutMs": 1500
+    },
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='create-back-action'] button"
+      },
+      "timeoutMs": 1500
+    }
+  ],
+  "profiles": [
+    "smoke",
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Create Orchard under an existing Property",
+    "mode": "safe",
+    "dataGated": true
+  }
+}

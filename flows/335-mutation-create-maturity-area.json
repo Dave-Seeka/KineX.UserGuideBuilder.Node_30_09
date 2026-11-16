@@ -1,0 +1,343 @@
+{
+  "id": "mutation-create-maturity-area",
+  "title": "Create a guide-owned Maturity Area from eligible Blocks",
+  "description": "In a disposable test environment, create a uniquely coded MA under a guide-owned Orchard with an eligible unassigned Block.",
+  "category": "Mutation verification",
+  "order": 335,
+  "profiles": [
+    "ma-create"
+  ],
+  "mutation": true,
+  "coverage": {
+    "capability": "Create a Maturity Area and validate Block membership",
+    "mode": "mutation",
+    "dataGated": true
+  },
+  "safety": "Creates a persistent MA and changes Block membership. No automatic delete/reversal; manual cleanup is required. Refuses non-test hosts and non-guide-owned Orchard selection.",
+  "prerequisites": [
+    "config.mutations.enabled and exact confirmation phrase must be provided.",
+    "Use a disposable test environment (localhost, *.test, or kinextest.seeka.co.nz).",
+    "A guide-owned Orchard whose name starts with mutations.testPrefix + \" Orchard\" exists in the selected country/crop/season.",
+    "The Orchard has an active Grower Supply link and at least one active unassigned eligible Block for the selected effective date.",
+    "Truck access reference data is available. No automatic MA cleanup is performed."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Select a guide-owned Orchard",
+      "instruction": "Find the guide-created test Orchard and verify the selected parent belongs to this test suite.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench",
+          "waitForMapReady": false
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "clickIfVisible",
+          "locator": {
+            "selector": "[data-guide='back-to-orchards']"
+          },
+          "timeoutMs": 2000
+        },
+        {
+          "type": "clickUntilVisible",
+          "locator": {
+            "selector": "button[role='tab'][title='Orchards']"
+          },
+          "successLocator": {
+            "selector": "[data-guide='orchard-navigator']"
+          },
+          "timeoutMs": 15000,
+          "perAttemptTimeoutMs": 1000
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='orchard-search']"
+          },
+          "value": "{{mutations.testPrefix}} Orchard"
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='orchard-select']"
+          },
+          "minCount": 1,
+          "timeoutMs": 10000,
+          "message": "No guide-owned Orchard was found. Create one first; do not use a live production Orchard."
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='orchard-select']"
+          },
+          "timeoutMs": 12000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard']"
+          },
+          "timeoutMs": 15000
+        },
+        {
+          "type": "assertMaMutationScope",
+          "expectedParentText": "{{mutations.testPrefix}} Orchard"
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='context-create-ma']:not(:disabled)"
+          },
+          "minCount": 1,
+          "message": "Create MA is disabled for this Orchard.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "clickUntilVisible",
+          "locator": {
+            "selector": "[data-guide='context-create-ma']:not(:disabled)"
+          },
+          "successLocator": {
+            "selector": "[data-guide='entity-create-drawer'][data-guide-entity='maturityarea']"
+          },
+          "timeoutMs": 15000,
+          "perAttemptTimeoutMs": 1000
+        }
+      ],
+      "capture": {
+        "file": "01-ma-parent.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='maturity-area-parent-context']"
+            },
+            "label": "Test Orchard",
+            "number": 1
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Complete required MA details",
+      "instruction": "Use a unique alphanumeric code, Truck access, linked Grower Supply and an Orchard-constrained effective date.",
+      "actions": [
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='maturity-area-code'] input"
+          },
+          "value": "UG{{runId}}",
+          "timeoutMs": 12000
+        },
+        {
+          "type": "selectFirstOption",
+          "locator": {
+            "selector": "[data-guide='maturity-area-truck-access']"
+          },
+          "timeoutMs": 12000,
+          "skipMessage": "No Truck access values available for MA creation."
+        },
+        {
+          "type": "selectFirstOption",
+          "locator": {
+            "selector": "[data-guide='maturity-area-grower-supply']"
+          },
+          "timeoutMs": 12000,
+          "skipMessage": "Selected guide Orchard has no Grower Supply link. Add a valid Grower Supply first."
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='maturity-area-effective-date'] input[type='date']:not(:disabled)"
+          },
+          "minCount": 1,
+          "timeoutMs": 12000,
+          "message": "MA effective date unresolved or disabled for the selected Orchard."
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 15000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 15000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='maturity-area-eligibility-groups']"
+          },
+          "timeoutMs": 15000
+        }
+      ],
+      "capture": {
+        "file": "02-ma-details.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='maturity-area-eligibility-groups']"
+            },
+            "label": "Eligibility groups",
+            "number": 1
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Assign one eligible Block",
+      "instruction": "Select one available Block in a single compatibility group; do not reassign existing MA members.",
+      "actions": [
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='maturity-area-eligibility-group'] > summary"
+          },
+          "timeoutMs": 10000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='maturity-area-block-list'] input[aria-label^='Assign Block ']:not(:disabled)"
+          },
+          "minCount": 1,
+          "timeoutMs": 10000,
+          "message": "No compatible unassigned Block is available for this MA. Do not reuse assigned Blocks."
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='maturity-area-block-list'] input[aria-label^='Assign Block ']:not(:disabled)"
+          },
+          "timeoutMs": 12000
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 15000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 15000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='ma-review-step']"
+          },
+          "timeoutMs": 15000
+        }
+      ],
+      "capture": {
+        "file": "03-ma-review.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='ma-review-step']"
+            },
+            "label": "Review MA",
+            "number": 1
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='create-submit-action'] button"
+            },
+            "label": "Create MA",
+            "number": 2
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Create MA and inspect saved Business Form",
+      "instruction": "Submit through KineX and verify the created Maturity Area Business Form. The MA membership and any ArcGIS publishing remain server-managed.",
+      "actions": [
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='create-submit-action'] button"
+          },
+          "timeoutMs": 15000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-submit-action'] button"
+          },
+          "timeoutMs": 15000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='entity-create-drawer'][data-guide-entity='maturityarea']"
+          },
+          "state": "hidden",
+          "timeoutMs": 60000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='maturity area']"
+          },
+          "timeoutMs": 30000
+        }
+      ],
+      "capture": {
+        "file": "04-ma-created.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-shell'][data-guide-entity='maturity area']"
+            },
+            "label": "Saved MA",
+            "number": 1
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertVisible",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='maturity area']"
+          },
+          "label": "Created MA opened in Workbench"
+        }
+      ]
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='create-cancel-action'] button"
+      },
+      "timeoutMs": 1500
+    }
+  ],
+  "standalone": true
+}

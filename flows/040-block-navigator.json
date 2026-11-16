@@ -1,0 +1,177 @@
+{
+  "id": "block-navigator",
+  "title": "Browse Blocks",
+  "description": "Open an Orchard and work with its Blocks.",
+  "category": "Navigation and selection",
+  "order": 40,
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "An Orchard with at least one Block is available."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Open an Orchard\u2019s Blocks",
+      "instruction": "Use the drill-down arrow on an Orchard row.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForTimeout",
+          "ms": 1200
+        },
+        {
+          "type": "clickCandidateUntil",
+          "locator": {
+            "selector": "[data-guide='open-blocks']"
+          },
+          "successLocator": {
+            "selector": "[data-guide='block-select']"
+          },
+          "resetLocator": {
+            "selector": "[data-guide='back-to-orchards']"
+          },
+          "returnLocator": {
+            "selector": "[data-guide='orchard-navigator']"
+          },
+          "minCount": 1,
+          "perCandidateTimeoutMs": 4000,
+          "timeoutMs": 45000,
+          "message": "No Orchard with Blocks is available."
+        }
+      ],
+      "capture": {
+        "file": "01-blocks.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='back-to-orchards']"
+            },
+            "label": "Back to Orchards",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='back-to-orchards'] strong"
+            },
+            "label": "Current Orchard",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='block-search']"
+            },
+            "label": "Search Blocks",
+            "number": 3,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='block-list']"
+            },
+            "label": "Block list",
+            "number": 4,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Select a Block",
+      "instruction": "Select a Block name to make it primary and load its details.",
+      "actions": [
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='block-select']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitForTimeout",
+          "ms": 500
+        }
+      ],
+      "capture": {
+        "file": "02-selected.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='block-row']"
+            },
+            "label": "Selected Block",
+            "number": 1,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='block-selection-count']"
+            },
+            "label": "Selected Block count",
+            "number": 2,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6,
+            "optional": true
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='workbench-business-form']"
+            },
+            "label": "Block details",
+            "number": 3,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6,
+            "optional": true
+          }
+        ]
+      }
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='back-to-orchards']"
+      },
+      "timeoutMs": 1500
+    }
+  ],
+  "profiles": [
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Browse Blocks",
+    "mode": "safe",
+    "dataGated": true
+  }
+}

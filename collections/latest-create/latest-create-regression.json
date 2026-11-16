@@ -1,0 +1,15 @@
+{
+  "id": "latest-create-regression",
+  "title": "KineX Orchard Workbench Latest Create Regression",
+  "description": "Non-destructive QA coverage for create drawer lifecycle and temporal-context regressions.",
+  "audience": "KineX developers and QA",
+  "version": "1.0",
+  "numbering": "continuous",
+  "strict": true,
+  "guides": [
+    "latest-create-drawer-lifecycle",
+    "latest-property-temporal-policy",
+    "latest-orchard-dual-temporal-policy"
+  ],
+  "profiles": ["full"]
+}

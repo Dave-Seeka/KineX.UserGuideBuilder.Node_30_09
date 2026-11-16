@@ -1,0 +1,197 @@
+{
+  "id": "block-search",
+  "title": "Search and clear Blocks",
+  "description": "Search the selected Orchard\u2019s Blocks and review the no-results state.",
+  "category": "Navigation and selection",
+  "order": 42,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Search and clear Blocks",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "At least one Orchard has a Block."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Search Blocks",
+      "instruction": "Use the first Block name or code to narrow the list.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "clickCandidateUntil",
+          "locator": {
+            "selector": "[data-guide='open-blocks']"
+          },
+          "successLocator": {
+            "selector": "[data-guide='block-select']"
+          },
+          "resetLocator": {
+            "selector": "[data-guide='back-to-orchards']"
+          },
+          "returnLocator": {
+            "selector": "[data-guide='orchard-navigator']"
+          },
+          "minCount": 1,
+          "perCandidateTimeoutMs": 4000,
+          "timeoutMs": 45000,
+          "message": "No Orchard with Blocks is available."
+        },
+        {
+          "type": "fillFromText",
+          "source": {
+            "selector": "[data-guide='block-primary-label']"
+          },
+          "locator": {
+            "selector": "[data-guide='block-search']"
+          },
+          "maxLength": 8
+        },
+        {
+          "type": "assertCount",
+          "locator": {
+            "selector": "[data-guide='block-row']"
+          },
+          "min": 1,
+          "visibleOnly": true
+        }
+      ],
+      "capture": {
+        "file": "01-search.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='block-search']"
+            },
+            "label": "Search Blocks",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='block-list']"
+            },
+            "label": "Matches",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Review no matches",
+      "instruction": "Use a value that cannot match any Block.",
+      "actions": [
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='block-search']"
+          },
+          "value": "__NO_BLOCK_{{runId}}__"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='block-empty']"
+          }
+        },
+        {
+          "type": "assertText",
+          "locator": {
+            "selector": "[data-guide='block-empty']"
+          },
+          "contains": "No blocks match"
+        }
+      ],
+      "capture": {
+        "file": "02-no-results.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='block-search']"
+            },
+            "label": "Search text",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='block-empty']"
+            },
+            "label": "No matching Blocks",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Clear Block search",
+      "instruction": "Restore the complete Block list.",
+      "actions": [
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='block-search']"
+          },
+          "value": ""
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='block-list']"
+          }
+        }
+      ],
+      "capture": {
+        "file": "03-cleared.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='block-list']"
+            },
+            "label": "All Blocks",
+            "number": 1,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ]
+}

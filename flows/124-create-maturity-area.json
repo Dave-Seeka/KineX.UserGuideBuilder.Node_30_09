@@ -1,0 +1,319 @@
+{
+  "id": "create-maturity-area",
+  "title": "Create a Maturity Area",
+  "description": "Review MA details (including required Truck access and temporal scope), eligible Blocks and calculated area; cancel without creating.",
+  "category": "Create records",
+  "order": 124,
+  "profiles": [
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Create a Maturity Area",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "At least one Orchard has a linked Grower Supply, Truck access reference data and an eligible unassigned Block.",
+    "The current app selection and effective date fall inside the parent Orchard and Grower Supply validity.",
+    "No data is created by this flow."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Start Create Maturity Area",
+      "instruction": "Select an Orchard and open Create Maturity Area.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench",
+          "waitForMapReady": false
+        },
+        {
+          "type": "clickIfVisible",
+          "locator": {
+            "selector": "[data-guide='back-to-orchards']"
+          },
+          "timeoutMs": 2000
+        },
+        {
+          "type": "clickUntilVisible",
+          "locator": {
+            "selector": "button[role='tab'][title='Orchards']"
+          },
+          "successLocator": {
+            "selector": "[data-guide='orchard-navigator']"
+          },
+          "timeoutMs": 15000,
+          "perAttemptTimeoutMs": 1200
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "selectMaSafeGuideOrchard"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='context-create-ma']:not(:disabled)"
+          },
+          "minCount": 1,
+          "message": "Create Maturity Area is unavailable for this Orchard.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "clickUntilVisible",
+          "locator": {
+            "selector": "[data-guide='context-create-ma']:not(:disabled)"
+          },
+          "successLocator": {
+            "selector": "[data-guide='entity-create-drawer'][data-guide-entity='maturityarea']"
+          },
+          "timeoutMs": 20000,
+          "perAttemptTimeoutMs": 1200
+        }
+      ],
+      "capture": {
+        "file": "01-details.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='maturity-area-parent-context']"
+            },
+            "label": "Parent Orchard",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='maturity-area-code']"
+            },
+            "label": "MA code",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='maturity-area-grower-supply']"
+            },
+            "label": "Grower Supply",
+            "number": 3,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Enter required MA details",
+      "instruction": "Enter an MA code and choose a Grower Supply, then continue to eligible Blocks.",
+      "actions": [
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='maturity-area-code'] input"
+          },
+          "value": "UG{{runId}}"
+        },
+        {
+          "type": "selectFirstOption",
+          "locator": {
+            "selector": "[data-guide='maturity-area-truck-access']"
+          },
+          "timeoutMs": 12000,
+          "skipMessage": "No Truck access reference data is configured for MA creation."
+        },
+        {
+          "type": "selectFirstOption",
+          "locator": {
+            "selector": "[data-guide='maturity-area-grower-supply']"
+          },
+          "timeoutMs": 12000,
+          "skipMessage": "The selected Orchard has no selectable Grower Supply link, so a Maturity Area cannot be created."
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='maturity-area-effective-date'] input[type='date']:not(:disabled)"
+          },
+          "minCount": 1,
+          "timeoutMs": 12000,
+          "message": "MA effective date is unavailable. Resolve the selected Orchard and season before creating an MA."
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          }
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='maturity-area-eligibility-group']"
+          },
+          "minCount": 1,
+          "message": "No Maturity Area eligibility group is available.",
+          "timeoutMs": 15000
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='maturity-area-eligibility-group'] > summary"
+          },
+          "timeoutMs": 10000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='maturity-area-block-list'] input[aria-label^='Assign Block ']:not(:disabled)"
+          },
+          "minCount": 1,
+          "message": "No eligible unassigned Block is available for safe MA review.",
+          "timeoutMs": 15000
+        }
+      ],
+      "capture": {
+        "file": "02-blocks.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='maturity-area-eligibility-groups']"
+            },
+            "label": "Eligibility groups",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='maturity-area-block-list']"
+            },
+            "label": "Eligible Blocks",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='ma-calculated-area']"
+            },
+            "label": "Calculated area",
+            "number": 3,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Choose a Block and review",
+      "instruction": "Select an eligible Block and continue to Review. Do not create the Maturity Area.",
+      "actions": [
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='maturity-area-block-list'] input[aria-label^='Assign Block ']:not(:disabled)"
+          }
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='ma-review-step']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "03-review.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='ma-review-step']"
+            },
+            "label": "Maturity Area review",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='create-submit-action'] button"
+            },
+            "label": "Create after confirmation",
+            "number": 2,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertVisible",
+          "label": "MA Review",
+          "locator": {
+            "selector": "[data-guide='ma-review-step']"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='create-cancel-action'] button"
+      },
+      "timeoutMs": 1500
+    }
+  ]
+}

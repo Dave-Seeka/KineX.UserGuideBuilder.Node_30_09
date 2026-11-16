@@ -1,0 +1,210 @@
+{
+  "id": "manual-address-modes",
+  "title": "Switch between address lookup and manual entry",
+  "description": "Review manual address choices and return to ArcGIS lookup.",
+  "category": "Create records",
+  "order": 102,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Switch between address lookup and manual entry",
+    "mode": "safe",
+    "dataGated": false
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Open manual address choices",
+      "instruction": "Start a new parent Property and select \u201cCan\u2019t find the address?\u201d.",
+      "actions": [
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-orchard']"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='entity-create-drawer']"
+          }
+        },
+        {
+          "type": "selectOption",
+          "locator": {
+            "selector": "[data-guide='property-source']"
+          },
+          "value": "new",
+          "timeoutMs": 20000,
+          "label": "Create new"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='property-address']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='address-manual-options-button']"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='address-manual-options']"
+          }
+        }
+      ],
+      "capture": {
+        "file": "01-options.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='address-create-new']"
+            },
+            "label": "Create New Address",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='address-use-suggested']"
+            },
+            "label": "Use Suggested Address",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='address-options-back']"
+            },
+            "label": "Go Back",
+            "number": 3,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Use manual entry",
+      "instruction": "Choose Create New Address to display the manual fields.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='address-create-new']"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='address-manual-fields']"
+          }
+        }
+      ],
+      "capture": {
+        "file": "02-manual.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='address-manual-heading']"
+            },
+            "label": "Manual and unverified",
+            "number": 1,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='address-manual-fields']"
+            },
+            "label": "Address fields",
+            "number": 2,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='address-return-to-lookup']"
+            },
+            "label": "Return to lookup",
+            "number": 3,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Return to lookup",
+      "instruction": "Switch back to the ArcGIS address search.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='address-return-to-lookup']"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='address-search']"
+          }
+        }
+      ],
+      "capture": {
+        "file": "03-lookup.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='address-search']"
+            },
+            "label": "ArcGIS address lookup",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='create-back-action'] button"
+      },
+      "timeoutMs": 1500
+    }
+  ]
+}

@@ -1,0 +1,213 @@
+{
+  "id": "orchard-navigator",
+  "title": "Find and filter Orchards",
+  "description": "Use search and link-state filters within the active scope.",
+  "category": "Navigation and selection",
+  "order": 30,
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "At least one Orchard is in scope."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Review the Orchard navigator",
+      "instruction": "Search by Orchard name or PIN and filter by map-link state.",
+      "actions": [
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "button[role='tab'][title='Orchards']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitForTimeout",
+          "ms": 1200
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='orchard-list']"
+          },
+          "message": "No Orchards are available for the selected AppSelection.",
+          "minCount": 1,
+          "timeoutMs": 10000
+        }
+      ],
+      "capture": {
+        "file": "01-navigator.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-search']"
+            },
+            "label": "Search",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-link-filter']"
+            },
+            "label": "Link-state filters",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-list']"
+            },
+            "label": "Scoped results",
+            "number": 3,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertVisible",
+          "label": "Navigator visible",
+          "locator": {
+            "selector": "[data-guide='orchard-navigator']"
+          }
+        },
+        {
+          "type": "assertCount",
+          "label": "Orchards available",
+          "locator": {
+            "selector": "[data-guide='orchard-select']"
+          },
+          "min": 1,
+          "visibleOnly": true
+        }
+      ]
+    },
+    {
+      "heading": "Show unlinked Orchards",
+      "instruction": "Use No Map to find records that still need a boundary.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='orchard-link-filter-trigger']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='orchard-filter-unlinked']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitForTimeout",
+          "ms": 500
+        }
+      ],
+      "capture": {
+        "file": "02-unlinked.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-link-filter']"
+            },
+            "label": "No Map filter active",
+            "number": 1,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-link-badge']"
+            },
+            "label": "Geometry status",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6,
+            "optional": true
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Return to all Orchards",
+      "instruction": "Select All records to restore the full scoped list.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='orchard-link-filter-trigger']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='orchard-filter-all']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "03-all.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-link-filter']"
+            },
+            "label": "All records",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='open-blocks']"
+            },
+            "label": "Open Blocks",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6,
+            "optional": true
+          }
+        ]
+      }
+    }
+  ],
+  "profiles": [
+    "smoke",
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Find and filter Orchards",
+    "mode": "safe",
+    "dataGated": true
+  }
+}

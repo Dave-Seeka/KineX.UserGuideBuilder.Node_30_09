@@ -1,0 +1,155 @@
+{
+  "id": "map-auto-select",
+  "title": "Use automatic and targeted map selection",
+  "description": "Switch between Auto selection and Property, Orchard or Block targets.",
+  "category": "Map tools",
+  "order": 64,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Use automatic and targeted map selection",
+    "mode": "safe",
+    "dataGated": false
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Activate Auto selection",
+      "instruction": "Auto chooses the most specific supported shape under the pointer.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='map-tool-auto']"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='map-selection-prompt']"
+          }
+        },
+        {
+          "type": "assertAttribute",
+          "locator": {
+            "selector": "[data-guide='map-tool-auto']"
+          },
+          "name": "class",
+          "contains": "gis-tool-button--active"
+        }
+      ],
+      "capture": {
+        "file": "01-auto.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='map-tool-auto']"
+            },
+            "label": "Auto select",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='map-selection-prompt']"
+            },
+            "label": "Selection guidance",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Choose a specific target",
+      "instruction": "Open Select and choose Block. The same menu also supports Property and Orchard.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='map-tool-select']"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='map-select-menu']"
+          }
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='map-select-block']"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='map-selection-prompt']"
+          }
+        },
+        {
+          "type": "assertAttribute",
+          "locator": {
+            "selector": "[data-guide='map-tool-select']"
+          },
+          "name": "class",
+          "contains": "gis-dropdown__trigger--active"
+        }
+      ],
+      "capture": {
+        "file": "02-block-target.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='map-tool-select']"
+            },
+            "label": "Targeted select",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='map-selection-prompt']"
+            },
+            "label": "Select one Block",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ]
+}

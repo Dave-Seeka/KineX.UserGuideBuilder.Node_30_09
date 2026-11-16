@@ -1,0 +1,212 @@
+{
+  "id": "create-orchard-navigation",
+  "title": "Move backward and cancel Orchard creation",
+  "description": "Use Continue, Previous and Cancel without saving.",
+  "category": "Create records",
+  "order": 94,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Move backward and cancel Orchard creation",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "At least one Property is available."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Continue to Orchard details",
+      "instruction": "Select the first available Property and continue.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-orchard']"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='entity-create-drawer']"
+          }
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='property-search'] input"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='property-option']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='property-option']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          }
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-continue-action'] button"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-details-step']"
+          }
+        }
+      ],
+      "capture": {
+        "file": "01-details.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-details-step']"
+            },
+            "label": "Orchard details",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='create-back-action'] button"
+            },
+            "label": "Previous",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Return to the parent step",
+      "instruction": "Select Previous to revisit the Property choice.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-back-action'] button"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-parent-step']"
+          }
+        }
+      ],
+      "capture": {
+        "file": "02-previous.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-parent-step']"
+            },
+            "label": "Parent Property",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='create-back-action'] button"
+            },
+            "label": "Cancel",
+            "number": 2,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Cancel without saving",
+      "instruction": "Close the setup. No record is created.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-back-action'] button"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='entity-create-drawer']"
+          },
+          "state": "hidden",
+          "timeoutMs": 10000
+        }
+      ],
+      "capture": {
+        "file": "03-cancelled.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='create-orchard']"
+            },
+            "label": "Create Orchard",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertNoToast",
+          "label": "No save notification",
+          "contains": "created",
+          "durationMs": 1000
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "id": "select-pick-history-reversal",
+  "title": "Review Select Pick history and reversal",
+  "description": "Open a Select Pick audit event and review reversal effective-date controls without reversing it.",
+  "category": "Pick strategies",
+  "order": 178,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Review Select Pick history and reversal",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "A Block or Maturity Area has a reversible Select Pick audit event and reversal permission."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Find Select Pick activity",
+      "instruction": "Select a Maturity Area and open Activity. This guide requires an effective Select Pick event that can be reversed.",
+      "actions": [
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "button[role='tab'][title='Maturity Areas']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='maturity-area-navigator']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": ".workbench-ma-row button[aria-label^='Select Maturity Area ']"
+          },
+          "minCount": 1,
+          "message": "No Maturity Area is available for the selected scope.",
+          "timeoutMs": 15000
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": ".workbench-ma-row button[aria-label^='Select Maturity Area ']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='maturity area']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "role": "tab",
+            "name": "Activity",
+            "exact": true
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-activity-content']"
+          }
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='reverse-select-pick']:not(:disabled)"
+          },
+          "minCount": 1,
+          "message": "No reversible Select Pick activity is available."
+        }
+      ],
+      "capture": {
+        "file": "01-history.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='pick-strategy-reference']"
+            },
+            "label": "Strategy reference",
+            "number": 1,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6,
+            "optional": true
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='reverse-select-pick']"
+            },
+            "label": "Reverse",
+            "number": 2,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Review reversal",
+      "instruction": "Open Reverse to review the effective date and boundary warning. Close the drawer without committing.",
+      "actions": [
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='reverse-select-pick']:not(:disabled)"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='select-pick-reversal-drawer']"
+          },
+          "timeoutMs": 10000
+        }
+      ],
+      "capture": {
+        "file": "02-reversal.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='select-pick-reversal-drawer']"
+            },
+            "label": "Reversal effective date",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='select-pick-reversal-boundary-warning']"
+            },
+            "label": "Season/lifecycle boundary guidance",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6,
+            "optional": true
+          }
+        ]
+      }
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "label": "Close Select Pick reversal"
+      },
+      "timeoutMs": 1500
+    }
+  ]
+}

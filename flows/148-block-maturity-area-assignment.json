@@ -1,0 +1,199 @@
+{
+  "id": "block-maturity-area-assignment",
+  "title": "Change a Block Maturity Area assignment",
+  "description": "Open Block Allocation and review the effective MA assignment editor without saving.",
+  "category": "Edit records",
+  "order": 148,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Change a Block Maturity Area assignment",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "A Block and at least one Maturity Area are available."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Open Block Allocation",
+      "instruction": "Select a Block and open Allocation to see the current Maturity Area assignment.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "clickCandidateUntil",
+          "locator": {
+            "selector": "[data-guide='open-blocks']"
+          },
+          "successLocator": {
+            "selector": "[data-guide='block-select']"
+          },
+          "resetLocator": {
+            "selector": "[data-guide='back-to-orchards']"
+          },
+          "returnLocator": {
+            "selector": "[data-guide='orchard-navigator']"
+          },
+          "minCount": 1,
+          "perCandidateTimeoutMs": 4000,
+          "timeoutMs": 45000,
+          "message": "No Orchard with at least 1 Block is available."
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='block-select']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='block']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "role": "tab",
+            "name": "Allocation",
+            "exact": true
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-allocation-content']"
+          }
+        },
+        {
+          "type": "require",
+          "locator": {
+            "role": "button",
+            "name": "Change assignment",
+            "exact": true
+          },
+          "minCount": 1,
+          "message": "Block MA assignment is unavailable."
+        }
+      ],
+      "capture": {
+        "file": "01-allocation.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='block-maturity-area']"
+            },
+            "label": "Current assignment",
+            "number": 1,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6,
+            "optional": true
+          },
+          {
+            "locator": {
+              "role": "button",
+              "name": "Change assignment",
+              "exact": true
+            },
+            "label": "Change assignment",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Review assignment editor",
+      "instruction": "Open Change assignment to review the effective date and target MA controls, then cancel.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "role": "button",
+            "name": "Change assignment",
+            "exact": true
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "label": "Maturity Area assignment"
+          },
+          "timeoutMs": 10000
+        }
+      ],
+      "capture": {
+        "file": "02-editor.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "label": "Maturity Area assignment effective date"
+            },
+            "label": "Effective date",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "label": "Maturity Area assignment"
+            },
+            "label": "Maturity Area",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": ".workbench-block-ma__cancel"
+            },
+            "label": "Cancel",
+            "number": 3,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": ".workbench-block-ma__cancel"
+      },
+      "timeoutMs": 1500
+    }
+  ]
+}

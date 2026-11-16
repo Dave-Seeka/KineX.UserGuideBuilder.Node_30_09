@@ -1,0 +1,150 @@
+{
+  "id": "create-orchard",
+  "title": "Create an Orchard",
+  "description": "Create an Orchard from Orchard Workbench using the active AppSelection context.",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Open Orchard Workbench",
+      "instruction": "Open Orchard Workbench and confirm the Season and Crop in AppSelection before creating the Orchard.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          }
+        }
+      ],
+      "capture": {
+        "file": "01-orchard-workbench.png",
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='app-selection']"
+            },
+            "label": "Confirm Season and Crop",
+            "color": "#0058a4",
+            "padding": 8,
+            "boxTimeoutMs": 10000
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='create-orchard']"
+            },
+            "label": "Start Create Orchard"
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Choose the parent Property",
+      "instruction": "Select an existing Property or choose Create new when the administrative parent does not exist.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='create-orchard']"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='entity-create-drawer'][data-guide-entity='orchard']"
+          }
+        }
+      ],
+      "capture": {
+        "file": "02-parent-property.png",
+        "target": {
+          "selector": "[data-guide='entity-create-drawer'][data-guide-entity='orchard']"
+        },
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='property-source']"
+            },
+            "label": "Choose Property source"
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='property-selector']"
+            },
+            "label": "Select the parent Property",
+            "color": "#0058a4"
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Enter Orchard details",
+      "instruction": "Enter the Orchard PIN, Orchard name, and Crop. Season and effective date are supplied by AppSelection.",
+      "actions": [
+        {
+          "type": "selectFirstOption",
+          "locator": {
+            "selector": "[data-guide='property-selector']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "role": "button",
+            "name": "Continue",
+            "exact": true
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "role": "button",
+            "name": "Continue",
+            "exact": true
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-details-step']"
+          }
+        }
+      ],
+      "capture": {
+        "file": "03-orchard-details.png",
+        "target": {
+          "selector": "[data-guide='entity-create-drawer'][data-guide-entity='orchard']"
+        },
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-pin']"
+            },
+            "label": "Enter Orchard PIN"
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-name']"
+            },
+            "label": "Enter Orchard name"
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-season-context']"
+            },
+            "label": "Read-only AppSelection context",
+            "color": "#0058a4",
+            "padding": 10
+          }
+        ]
+      }
+    }
+  ]
+}

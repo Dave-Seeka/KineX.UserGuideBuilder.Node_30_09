@@ -1,0 +1,116 @@
+{
+  "id": "view-block-details",
+  "title": "View Block details",
+  "description": "Open an Orchard\u2019s Blocks and select one Block.",
+  "category": "View details",
+  "order": 88,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "View Block details",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "At least one Orchard has a Block."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Select a Block",
+      "instruction": "Choose a Block from an Orchard that contains Block records.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "clickCandidateUntil",
+          "locator": {
+            "selector": "[data-guide='open-blocks']"
+          },
+          "successLocator": {
+            "selector": "[data-guide='block-select']"
+          },
+          "resetLocator": {
+            "selector": "[data-guide='back-to-orchards']"
+          },
+          "returnLocator": {
+            "selector": "[data-guide='orchard-navigator']"
+          },
+          "minCount": 1,
+          "perCandidateTimeoutMs": 4000,
+          "timeoutMs": 45000,
+          "message": "No Orchard with Blocks is available."
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='block-select']"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='block']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "01-block.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-header']"
+            },
+            "label": "Block identity",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-content']"
+            },
+            "label": "Block details",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='business-spatial-status']"
+            },
+            "label": "Shape status",
+            "number": 3,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6,
+            "optional": true
+          }
+        ]
+      }
+    }
+  ]
+}

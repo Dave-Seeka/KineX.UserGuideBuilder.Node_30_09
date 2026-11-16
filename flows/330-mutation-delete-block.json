@@ -1,0 +1,190 @@
+{
+  "id": "mutation-delete-block",
+  "title": "Verify Block delete notification",
+  "description": "Delete the guide-owned Block and verify the Deleted toast.",
+  "category": "Mutation verification",
+  "order": 330,
+  "profiles": [
+    "mutation"
+  ],
+  "mutation": true,
+  "coverage": {
+    "capability": "Verify Block delete notification",
+    "mode": "mutation",
+    "dataGated": true
+  },
+  "safety": "This verification flow persists and then cleans up test data.",
+  "prerequisites": [
+    "Run after the mutation Block checks. Only records using the configured guide test prefix may be deleted."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Delete the guide-owned Block",
+      "instruction": "Open the guide-owned Orchard, locate its guide-owned Block, confirm deletion and verify the toast.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "button[role='tab'][title='Orchards']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-navigator']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='orchard-search']"
+          },
+          "value": "{{mutations.testPrefix}} Orchard"
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='open-blocks']"
+          },
+          "minCount": 1,
+          "message": "No guide-owned Orchard is available.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='open-blocks']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='block-navigator']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='block-search']"
+          },
+          "value": "{{mutations.testPrefix}}-B-"
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='block-select']"
+          },
+          "minCount": 1,
+          "message": "No guide-owned Block is available for cleanup.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='block-select']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='block']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='context-delete-action']:not(:disabled)"
+          },
+          "minCount": 1,
+          "message": "Block delete is unavailable.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='context-delete-action']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='delete-dialog']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='delete-confirm'] button"
+          }
+        },
+        {
+          "type": "assertToast",
+          "contains": "deleted successfully",
+          "tone": "success",
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='block-navigator']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "01-deleted.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='block-navigator']"
+            },
+            "label": "Guide Block removed",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertCount",
+          "label": "Guide Block removed",
+          "locator": {
+            "selector": "[data-guide='block-select']"
+          },
+          "exact": 0,
+          "visibleOnly": true
+        }
+      ]
+    }
+  ]
+}

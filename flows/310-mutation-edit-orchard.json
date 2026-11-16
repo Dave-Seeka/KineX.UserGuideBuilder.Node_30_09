@@ -1,0 +1,279 @@
+{
+  "id": "mutation-edit-orchard",
+  "title": "Verify Orchard save notification",
+  "description": "Save and restore a Orchard field using the current effective-dated Business Form edit flow, then verify notifications.",
+  "category": "Mutation verification",
+  "order": 310,
+  "profiles": [
+    "mutation"
+  ],
+  "mutation": true,
+  "coverage": {
+    "capability": "Verify Orchard save notification",
+    "mode": "mutation",
+    "dataGated": true
+  },
+  "safety": "This verification flow persists and then cleans up test data.",
+  "prerequisites": [
+    "Run after the mutation create-Orchard flow in a disposable environment with Orchard edit permission."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Save and restore an Orchard name",
+      "instruction": "Edit and restore the guide-selected Orchard using the effective-date modal.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "button[role='tab'][title='Orchards']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-navigator']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='orchard-search']"
+          },
+          "value": "{{mutations.testPrefix}} Orchard"
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='orchard-select']"
+          },
+          "minCount": 1,
+          "message": "No guide-owned Orchard is available.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='orchard-select']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='business-edit-action']:not(:disabled)"
+          },
+          "minCount": 1,
+          "message": "Edit is unavailable for this record.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='business-edit-action']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='schedule-change-modal']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "clickIfVisible",
+          "locator": {
+            "role": "button",
+            "name": "Use viewed state",
+            "exact": true
+          },
+          "timeoutMs": 1500
+        },
+        {
+          "type": "click",
+          "locator": {
+            "role": "button",
+            "name": "Continue",
+            "exact": true
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard'][data-guide-mode='edit']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "rememberValue",
+          "key": "originalOrchardValue",
+          "locator": {
+            "selector": "[data-guide='orchard-name'] input"
+          }
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='orchard-name'] input"
+          },
+          "value": "{{originalOrchardValue}} Guide Check"
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='business-edit-save'] button"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='business-edit-save'] button"
+          }
+        },
+        {
+          "type": "assertToast",
+          "contains": "saved",
+          "tone": "success",
+          "timeoutMs": 30000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='business-edit-action']:not(:disabled)"
+          },
+          "minCount": 1,
+          "message": "Edit is unavailable for this record.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='business-edit-action']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='schedule-change-modal']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "clickIfVisible",
+          "locator": {
+            "role": "button",
+            "name": "Use viewed state",
+            "exact": true
+          },
+          "timeoutMs": 1500
+        },
+        {
+          "type": "click",
+          "locator": {
+            "role": "button",
+            "name": "Continue",
+            "exact": true
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard'][data-guide-mode='edit']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='orchard-name'] input"
+          },
+          "value": "{{originalOrchardValue}}"
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='business-edit-save'] button"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='business-edit-save'] button"
+          }
+        },
+        {
+          "type": "assertToast",
+          "contains": "saved",
+          "tone": "success",
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard'][data-guide-mode='view']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "01-restored.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-shell']"
+            },
+            "label": "Original Orchard restored",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertText",
+          "label": "Original Orchard name restored",
+          "locator": {
+            "selector": "[data-guide='orchard-name'] .workbench-business-field__value"
+          },
+          "exactText": "{{originalOrchardValue}}"
+        }
+      ]
+    }
+  ]
+}

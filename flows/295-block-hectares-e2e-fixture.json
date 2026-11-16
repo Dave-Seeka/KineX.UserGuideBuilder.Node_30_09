@@ -1,0 +1,180 @@
+{
+  "id": "block-hectares-e2e-fixture",
+  "title": "Create and verify NZ Kiwifruit Block hectare fixture",
+  "description": "After explicit GIS test-write approval, create through the Workbench and verify that all four mapped Blocks retain their saved business hectares; does not execute split/override/MA/rejoin mutations.",
+  "category": "Block hectares E2E",
+  "order": 295,
+  "profiles": [
+    "block-hectares-e2e"
+  ],
+  "mutation": true,
+  "coverage": {
+    "capability": "Create Block-hectares E2E test data",
+    "mode": "mutation",
+    "dataGated": true
+  },
+  "safety": "Creates persistent guide-owned Property, Orchard and Block records and publishes fixed source-location geometry (subject to separate GIS test-write approval) to ArcGIS. Run only in a disposable test environment.",
+  "prerequisites": [
+    "PIN 3025 is a candidate only: explicit GIS/test-layer approval is required and KINEX_PIN3025_TEST_WRITE_APPROVED=PIN3025-APPROVED-TEST must be set.",
+    "Mutation mode is enabled with the required confirmation phrase.",
+    "The active Season supports Kiwifruit on the fixture effective date.",
+    "The user can create Properties, Orchards and Blocks and publish ArcGIS business-model geometry."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Create the test Property and Orchard",
+      "instruction": "Create a disposable test-only Property and Orchard using the PIN 3025 candidate location after explicit GIS/test-write approval; do not assume ownership of the source Property.",
+      "actions": [
+        { "type": "preflightFixturePlacement", "fixture": "./fixtures/block-hectares-pin-3025.json" },
+        { "type": "goto", "path": "/arcgis/orchard-workbench", "waitForMapReady": false },
+        { "type": "waitFor", "locator": { "selector": "[data-guide='orchard-workbench']" }, "timeoutMs": 30000 },
+        { "type": "waitForMapReady", "timeoutMs": 120000, "settleMs": 1500 },
+        { "type": "click", "locator": {"selector": "[data-guide='app-selection']"}, "timeoutMs": 15000 },
+        { "type": "waitFor", "locator": {"selector": "[data-guide='app-selection-modal']"}, "timeoutMs": 15000 },
+        { "type": "selectOptionByAliases", "locator": {"selector": "[data-guide='app-selection-country']"}, "aliases": ["NZ", "New Zealand", "NEW ZEALAND"], "timeoutMs": 12000 },
+        { "type": "selectOptionByAliases", "locator": {"selector": "[data-guide='app-selection-crop']"}, "aliases": ["KIWIFRUIT", "Kiwifruit"], "timeoutMs": 12000 },
+        { "type": "selectOptionByAliases", "locator": {"selector": "[data-guide='app-selection-season']"}, "aliases": ["2026"], "timeoutMs": 12000 },
+        { "type": "click", "locator": {"selector": "[data-guide='app-selection-apply']"}, "timeoutMs": 15000 },
+        { "type": "waitFor", "locator": {"selector": "[data-guide='app-selection-modal']"}, "state": "hidden", "timeoutMs": 20000 },
+        { "type": "waitForMapReady", "timeoutMs": 120000, "settleMs": 1500 },
+        { "type": "require", "locator": { "selector": "[data-guide='create-orchard']:not(:disabled)" }, "minCount": 1, "message": "Create Orchard is unavailable for this session.", "timeoutMs": 10000 },
+        { "type": "click", "locator": { "selector": "[data-guide='create-orchard']" }, "timeoutMs": 20000 },
+        { "type": "waitFor", "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='orchard']" }, "timeoutMs": 20000 },
+        { "type": "selectOption", "locator": { "selector": "[data-guide='property-source']" }, "value": "new", "label": "Create new", "timeoutMs": 12000 },
+        { "type": "waitFor", "locator": { "selector": "[data-guide='property-address']" }, "timeoutMs": 20000 },
+        { "type": "selectOptionByAliases", "locator": {"selector": "[data-guide='property-country']"}, "aliases": ["NZ", "New Zealand", "NEW ZEALAND"], "timeoutMs": 12000 },
+        { "type": "click", "locator": { "selector": "[data-guide='address-manual-options-button']" }, "timeoutMs": 20000 },
+        { "type": "click", "locator": { "selector": "[data-guide='address-create-new']" }, "timeoutMs": 20000 },
+        { "type": "waitFor", "locator": { "selector": "[data-guide='address-manual-fields']" }, "timeoutMs": 20000 },
+        { "type": "fill", "locator": { "selector": "[data-guide='address-line-1'] input" }, "value": "{{mutations.testPrefix}} PIN3025 {{runId}} Test Road", "timeoutMs": 12000 },
+        { "type": "fill", "locator": { "selector": "[data-guide='address-suburb'] input" }, "value": "{{guideData.manualSuburb}}", "timeoutMs": 12000 },
+        { "type": "fill", "locator": { "selector": "[data-guide='address-city'] input" }, "value": "{{guideData.manualCity}}", "timeoutMs": 12000 },
+        { "type": "fill", "locator": { "selector": "[data-guide='address-region'] input" }, "value": "{{guideData.manualRegion}}", "timeoutMs": 12000 },
+        { "type": "fill", "locator": { "selector": "[data-guide='address-postal-code'] input" }, "value": "{{guideData.manualPostalCode}}", "timeoutMs": 12000 },
+        { "type": "assertFixtureScope", "effectiveDate": "2026-07-01", "dateSelectors": ["[data-guide='property-effective-date'] input[type='date']"], "timeoutMs": 20000 },
+        { "type": "waitForEnabled", "locator": { "selector": "[data-guide='create-continue-action'] button" }, "timeoutMs": 30000 },
+        { "type": "click", "locator": { "selector": "[data-guide='create-continue-action'] button" }, "timeoutMs": 20000 },
+        { "type": "waitFor", "locator": { "selector": "[data-guide='orchard-details-step']" }, "timeoutMs": 20000 },
+        { "type": "selectOption", "locator": { "selector": "[data-guide='orchard-crop']" }, "label": "KIWIFRUIT", "timeoutMs": 12000 },
+        { "type": "fill", "locator": { "selector": "[data-guide='orchard-name'] input" }, "value": "{{mutations.testPrefix}} PIN3025 E2E {{runId}}", "timeoutMs": 12000 },
+        { "type": "assertFixtureScope", "effectiveDate": "2026-07-01", "dateSelectors": ["[data-guide='orchard-effective-date'] input[type='date']"], "timeoutMs": 20000 },
+        { "type": "continueOrchardDetailsWithUniquePin", "locator": { "selector": "[data-guide='orchard-pin'] input" }, "cropLocator": { "selector": "[data-guide='orchard-crop']" }, "continueLocator": { "selector": "[data-guide='create-continue-action'] button" }, "successLocator": { "selector": "[data-guide='orchard-additional-step']" }, "prefix": "B", "pinLength": 4, "maxAttempts": 12, "perAttemptTimeoutMs": 6000, "timeoutMs": 30000 },
+        { "type": "selectFirstOptionIfEmpty", "locator": { "selector": "[data-guide='orchard-status']" }, "timeoutMs": 10000, "optional": true },
+        { "type": "waitForEnabled", "locator": { "selector": "[data-guide='create-continue-action'] button" }, "timeoutMs": 30000 },
+        { "type": "click", "locator": { "selector": "[data-guide='create-continue-action'] button" }, "timeoutMs": 20000 },
+        { "type": "waitFor", "locator": { "selector": "[data-guide='orchard-grower-supply-step']" }, "timeoutMs": 20000 },
+        { "type": "waitForEnabled", "locator": { "selector": "[data-guide='create-continue-action'] button" }, "timeoutMs": 30000 },
+        { "type": "click", "locator": { "selector": "[data-guide='create-continue-action'] button" }, "timeoutMs": 20000 },
+        { "type": "waitFor", "locator": { "selector": "[data-guide='orchard-review-step']" }, "timeoutMs": 20000 },
+        { "type": "waitForEnabled", "locator": { "selector": "[data-guide='create-submit-action'] button" }, "timeoutMs": 30000 },
+        { "type": "click", "locator": { "selector": "[data-guide='create-submit-action'] button" }, "timeoutMs": 20000 },
+        { "type": "waitFor", "locator": { "selector": "[data-guide='geometry-choice']" }, "timeoutMs": 30000 },
+        { "type": "assertText", "locator": { "selector": "[data-guide='geometry-parent-prerequisite']" }, "contains": "Parent boundary required first", "timeoutMs": 15000 },
+        { "type": "assertText", "locator": { "selector": "[data-guide='geometry-parent-prerequisite']" }, "contains": "Boundary order: Property", "timeoutMs": 15000 },
+        { "type": "assertText", "locator": { "selector": "[data-guide='geometry-parent-prerequisite']" }, "contains": "{{orchardPin}}", "timeoutMs": 15000 }
+      ],
+      "capture": {
+        "file": "01-property-orchard-created.png",
+        "fullPage": false,
+        "highlights": [
+          { "locator": { "selector": "[data-guide='geometry-choice']" }, "label": "Property boundary next", "number": 1, "color": "#0058a4", "labelBackground": "#0058a4", "padding": 6 }
+        ]
+      }
+    },
+    {
+      "heading": "Publish the Property and Orchard boundaries",
+      "instruction": "Supply PIN 3025 source Property geometry at fixed NZTM coordinates, a clearly derived 0.5% inset Orchard boundary, and original four Block shapes. No random offsets.",
+      "actions": [
+        { "type": "click", "locator": { "selector": "[data-guide='geometry-draw']" }, "timeoutMs": 20000 },
+        { "type": "waitFor", "locator": { "selector": "[data-guide='geometry-task-panel']" }, "timeoutMs": 20000 },
+        { "type": "injectFixturePolygon", "fixture": "./fixtures/block-hectares-pin-3025.json", "geometryPath": "e2e.property.geometry", "after": "choice-or-task", "timeoutMs": 120000, "expectedNextEntity": "Orchard" },
+        { "type": "assertFixtureGeometryPublished", "entity": "property", "nextEntity": "orchard", "timeoutMs": 30000 },
+        { "type": "clickIfVisible", "locator": { "selector": "[data-guide='geometry-draw']" }, "timeoutMs": 20000 },
+        { "type": "waitFor", "locator": { "selector": "[data-guide='geometry-task-panel']" }, "timeoutMs": 20000 },
+        { "type": "injectFixturePolygon", "fixture": "./fixtures/block-hectares-pin-3025.json", "geometryPath": "e2e.orchard.geometry", "after": "complete", "timeoutMs": 120000, "expectedEntity": "orchard" },
+        { "type": "assertFixtureGeometryPublished", "entity": "orchard", "timeoutMs": 45000 },
+        { "type": "waitFor", "locator": { "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard']" }, "timeoutMs": 30000 }
+      ],
+      "capture": {
+        "file": "02-orchard-mapped.png",
+        "fullPage": false,
+        "highlights": [
+          { "locator": { "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard']" }, "label": "Mapped E2E Orchard", "number": 1, "color": "#15803d", "labelBackground": "#15803d", "padding": 6 }
+        ]
+      }
+    },
+    {
+      "heading": "Create four Blocks with business hectares",
+      "instruction": "Create four Blocks in one batch. Block 3 deliberately uses 1.50 business ha while its CSV-derived GIS polygon is about 1.5635 ha.",
+      "actions": [
+        { "type": "require", "locator": { "selector": "[data-guide='context-create-action'][data-guide-create-entity='block'][data-guide-parent-id]" }, "minCount": 1, "message": "Create Block is unavailable for the E2E Orchard.", "timeoutMs": 10000 },
+        { "type": "clickUntilVisible", "locator": { "selector": "[data-guide='context-create-action'][data-guide-create-entity='block'][data-guide-parent-id]" }, "successLocator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='block']" }, "timeoutMs": 30000, "perAttemptTimeoutMs": 1500 },
+        { "type": "click", "locator": { "label": "Multiple Blocks" }, "timeoutMs": 20000 },
+        { "type": "waitForEnabled", "locator": { "selector": "[data-guide='create-continue-action'] button" }, "timeoutMs": 30000 },
+        { "type": "click", "locator": { "selector": "[data-guide='create-continue-action'] button" }, "timeoutMs": 20000 },
+        { "type": "waitFor", "locator": { "selector": "[data-guide='block-create-rows']" }, "timeoutMs": 20000 },
+        { "type": "fill", "locator": { "selector": "[data-guide='multi-block-name-prefix'] input" }, "value": "PIN3025-E2E-", "timeoutMs": 12000 },
+        { "type": "click", "locator": { "role": "button", "name": "Add Block", "exact": true }, "timeoutMs": 10000 },
+        { "type": "click", "locator": { "role": "button", "name": "Add Block", "exact": true }, "timeoutMs": 10000 },
+        { "type": "fill", "locator": { "label": "Block 1 area hectares" }, "value": "0.29", "timeoutMs": 10000 },
+        { "type": "fill", "locator": { "label": "Block 2 area hectares" }, "value": "0.61", "timeoutMs": 10000 },
+        { "type": "fill", "locator": { "label": "Block 3 area hectares" }, "value": "1.50", "timeoutMs": 10000 },
+        { "type": "fill", "locator": { "label": "Block 4 area hectares" }, "value": "0.70", "timeoutMs": 10000 },
+        { "type": "waitForEnabled", "locator": { "selector": "[data-guide='create-continue-action'] button" }, "timeoutMs": 30000 },
+        { "type": "click", "locator": { "selector": "[data-guide='create-continue-action'] button" }, "timeoutMs": 20000 },
+        { "type": "selectOptionByAliases", "locator": {"label": "Production status *"}, "aliases": ["PROD"], "fallback": "firstEnabled", "timeoutMs": 12000 },
+        { "type": "selectFirstOption", "locator": { "label": "Cover status *" }, "timeoutMs": 12000 },
+        { "type": "waitForEnabled", "locator": { "selector": "[data-guide='create-continue-action'] button" }, "timeoutMs": 30000 },
+        { "type": "click", "locator": { "selector": "[data-guide='create-continue-action'] button" }, "timeoutMs": 20000 },
+        { "type": "waitFor", "locator": { "selector": "[data-guide='multi-block-review-table']" }, "timeoutMs": 20000 },
+        { "type": "waitForEnabled", "locator": { "selector": "[data-guide='create-submit-action'] button" }, "timeoutMs": 30000 },
+        { "type": "click", "locator": { "selector": "[data-guide='create-submit-action'] button" }, "timeoutMs": 20000 },
+        { "type": "assertToast", "contains": "Blocks created", "timeoutMs": 30000 },
+        { "type": "waitFor", "locator": { "selector": "[data-guide='geometry-choice']" }, "timeoutMs": 30000 }
+      ],
+      "capture": {
+        "file": "03-four-blocks-created.png",
+        "fullPage": false,
+        "highlights": [
+          { "locator": { "selector": "[data-guide='geometry-choice']" }, "label": "Draw four Block boundaries", "number": 1, "color": "#0058a4", "labelBackground": "#0058a4", "padding": 6 }
+        ]
+      }
+    },
+    {
+      "heading": "Publish the four source-derived Block shapes",
+      "instruction": "Inject each fixed-coordinate CSV Block polygon as EsriJSON in the continuous batch. Block 3 is the independent business-hectare-versus-GIS discrepancy test Block. This capture verifies fixture creation only; the hectare regression scenarios require separate assertions.",
+      "actions": [
+        { "type": "click", "locator": { "selector": "[data-guide='geometry-draw']" }, "timeoutMs": 20000 },
+        { "type": "waitFor", "locator": { "selector": "[data-guide='geometry-task-panel']" }, "timeoutMs": 20000 },
+        { "type": "injectFixturePolygon", "fixture": "./fixtures/block-hectares-pin-3025.json", "geometryPath": "e2e.blocks.0.geometry", "after": "next-geometry", "timeoutMs": 120000 },
+        { "type": "injectFixturePolygon", "fixture": "./fixtures/block-hectares-pin-3025.json", "geometryPath": "e2e.blocks.1.geometry", "after": "next-geometry", "timeoutMs": 120000 },
+        { "type": "injectFixturePolygon", "fixture": "./fixtures/block-hectares-pin-3025.json", "geometryPath": "e2e.blocks.2.geometry", "after": "next-geometry", "timeoutMs": 120000 },
+        { "type": "injectFixturePolygon", "fixture": "./fixtures/block-hectares-pin-3025.json", "geometryPath": "e2e.blocks.3.geometry", "after": "complete", "timeoutMs": 120000, "expectedEntity": "block" },
+        { "type": "waitFor", "locator": { "selector": "[data-guide='business-form-shell'][data-guide-entity='block']" }, "timeoutMs": 30000 }
+      ],
+      "capture": {
+        "file": "04-fixture-ready.png",
+        "fullPage": false,
+        "highlights": [
+          { "locator": { "selector": "[data-guide='workbench-map']" }, "label": "PIN 3025-derived E2E geometry", "number": 1, "color": "#15803d", "labelBackground": "#15803d", "padding": 6 },
+          { "locator": { "selector": "[data-guide='business-form-shell'][data-guide-entity='block']" }, "label": "Fixture ready", "number": 2, "color": "#0058a4", "labelBackground": "#0058a4", "padding": 6 }
+        ]
+      },
+      "checks": [
+        { "type": "assertVisible", "label": "Block fixture selected", "locator": { "selector": "[data-guide='business-form-shell'][data-guide-entity='block']" } }
+      ]
+    },
+    {
+      "heading": "Verify all four business areas after GIS publishing",
+      "instruction": "Read each mapped Block using the Workbench and assert the saved business hectare value, especially Block 3 = 1.50 ha rather than GIS ≈1.5635 ha. Split/override/MA/rejoin still require independent flows.",
+      "actions": [
+        { "type": "verifyBlockHectareFixture", "timeoutMs": 45000, "blocks": [{"name": "PIN3025-E2E-1", "businessHectares": 0.29}, {"name": "PIN3025-E2E-2", "businessHectares": 0.61}, {"name": "PIN3025-E2E-3", "businessHectares": 1.50}, {"name": "PIN3025-E2E-4", "businessHectares": 0.70}] }
+      ],
+      "capture": {"file": "05-business-hectares-verified.png", "fullPage": false, "highlights": [{"locator": {"selector": "[data-guide='business-form-shell'][data-guide-entity='block']"}, "label": "Business hectares preserved", "number": 1, "color": "#15803d", "labelBackground": "#15803d", "padding": 6}]}
+    }
+  ]
+}

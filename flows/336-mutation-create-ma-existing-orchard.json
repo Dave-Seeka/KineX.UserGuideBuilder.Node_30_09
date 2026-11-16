@@ -1,0 +1,174 @@
+{
+  "id": "ma-existing-test-orchard-create",
+  "title": "Create a Maturity Area on an explicitly approved test Orchard",
+  "description": "Existing Orchard \u2192 effective-dated Grower Supplier link (if missing) \u2192 MA Details \u2192 exact Block \u2192 Review \u2192 Create and verify. Browser writes only.",
+  "category": "Mutation verification",
+  "order": 336,
+  "profiles": [
+    "ma-existing-test"
+  ],
+  "standalone": true,
+  "mutation": true,
+  "coverage": {
+    "capability": "Create an MA with Grower Supplier prerequisite on an existing test Orchard",
+    "mode": "mutation",
+    "dataGated": true
+  },
+  "safety": "Persistent writes: may add a Grower Supplier link and creates an MA. Requires mutations confirmation, test host, exact Orchard/Entity/Block identities; no automatic delete. NEVER included in capture:all.",
+  "prerequisites": [
+    "Set maFixture.enabled and maFixture.allowExistingTestOrchard true, and configure exact Orchard PIN/name, existing Entity name/code, Block code, MA code and effective date.",
+    "Choose a KineX test host and a disposable test Orchard, with permissions to add grower links and create MAs.",
+    "Use selected NZ/KIWIFRUIT/2027 scope and a date within the Orchard season.",
+    "Ensure source Block is eligible and unassigned. Grower Supplier Entity must already exist and be active."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Select the approved existing Orchard",
+      "instruction": "Find the Orchard by exact PIN and name; refuse ambiguous or unrelated records.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench",
+          "waitForMapReady": true
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 35000
+        },
+        {
+          "type": "selectExistingMaFixtureOrchard"
+        }
+      ],
+      "capture": {
+        "file": "01-approved-orchard.png",
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard']"
+            },
+            "label": "Exact test Orchard",
+            "number": 1
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Ensure an effective-dated Grower Supplier",
+      "instruction": "Reuse the precise Entity link if present; otherwise add that existing Entity through the Orchard Grower Suppliers tab.",
+      "actions": [
+        {
+          "type": "ensureExistingMaFixtureSupplier"
+        }
+      ],
+      "capture": {
+        "file": "02-grower-supplier-ready.png",
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard']"
+            },
+            "label": "Orchard Grower Supplier ready",
+            "number": 1
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Complete MA Details",
+      "instruction": "Open the MA wizard; enter the configured code, effective date, approved supplier and truck-access value.",
+      "actions": [
+        {
+          "type": "clickUntilVisible",
+          "locator": {
+            "selector": "[data-guide='context-create-ma']:not(:disabled)"
+          },
+          "successLocator": {
+            "selector": "[data-guide='entity-create-drawer'][data-guide-entity='maturityarea']"
+          },
+          "timeoutMs": 20000,
+          "perAttemptTimeoutMs": 1000
+        },
+        {
+          "type": "fillExistingMaFixtureDetails"
+        }
+      ],
+      "capture": {
+        "file": "03-ma-details.png",
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='maturity-area-eligibility-groups']"
+            },
+            "label": "Eligible Block groups",
+            "number": 1
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Assign the configured Block and review",
+      "instruction": "Select only the specified eligible, unassigned Block, then review the MA before submission.",
+      "actions": [
+        {
+          "type": "selectExistingMaFixtureBlock"
+        }
+      ],
+      "capture": {
+        "file": "04-ma-review.png",
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='ma-review-step']"
+            },
+            "label": "MA Review",
+            "number": 1
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='create-submit-action'] button"
+            },
+            "label": "Create MA",
+            "number": 2
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Create the MA and verify the saved record",
+      "instruction": "Record durable submission intent, click the real Create MA button and verify the saved MA code.",
+      "actions": [
+        {
+          "type": "submitExistingMaFixture"
+        }
+      ],
+      "capture": {
+        "file": "05-ma-created.png",
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-shell'][data-guide-entity='maturity area']"
+            },
+            "label": "Saved Maturity Area",
+            "number": 1
+          }
+        ]
+      }
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='create-cancel-action'] button"
+      },
+      "timeoutMs": 1500
+    }
+  ]
+}

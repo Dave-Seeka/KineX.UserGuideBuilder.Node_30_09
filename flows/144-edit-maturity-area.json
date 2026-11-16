@@ -1,0 +1,174 @@
+{
+  "id": "edit-maturity-area",
+  "title": "Edit a Maturity Area",
+  "description": "Open an effective-dated MA profile edit and cancel without saving.",
+  "category": "Edit records",
+  "order": 144,
+  "profiles": [
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Edit a Maturity Area",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "An editable Maturity Area is available."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Start MA profile edit",
+      "instruction": "Select a Maturity Area, choose Edit and confirm the effective date.",
+      "actions": [
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "clickUntilVisible",
+          "locator": {
+            "selector": "button[role='tab'][title='Maturity Areas']"
+          },
+          "successLocator": {
+            "selector": "[data-guide='maturity-area-navigator']"
+          },
+          "timeoutMs": 20000,
+          "perAttemptTimeoutMs": 1200
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='maturity-area-navigator']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": ".workbench-ma-row button[aria-label^='Select Maturity Area ']"
+          },
+          "minCount": 1,
+          "message": "No Maturity Area is available for the selected scope.",
+          "timeoutMs": 15000
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": ".workbench-ma-row button[aria-label^='Select Maturity Area ']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='maturity area']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='business-edit-action']:not(:disabled)"
+          },
+          "minCount": 1,
+          "message": "Edit is unavailable for this record.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='business-edit-action']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='schedule-change-modal']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "clickIfVisible",
+          "locator": {
+            "role": "button",
+            "name": "Use viewed state",
+            "exact": true
+          },
+          "timeoutMs": 1500
+        },
+        {
+          "type": "click",
+          "locator": {
+            "role": "button",
+            "name": "Continue",
+            "exact": true
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-mode='edit']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "01-edit.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-content']"
+            },
+            "label": "Editable MA profile",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='ma-bf-code']"
+            },
+            "label": "MA code",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='business-edit-cancel'] button"
+            },
+            "label": "Cancel",
+            "number": 3,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='business-edit-cancel'] button"
+      },
+      "timeoutMs": 1500
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "testRunId": "KINEX-E2E-2027-0001",
+  "apiBaseUrl": "https://kinex.test:7001",
+  "approvedTestHost": "kinex.test",
+  "testOwner": {
+    "orchardPin": "REPLACE_WITH_SAVED_TEST_PIN"
+  },
+  "scope": {
+    "countryCode": "NZ",
+    "cropCode": "KIWIFRUIT",
+    "season": "2027",
+    "effectiveDate": "2027-07-01"
+  },
+  "select": {
+    "orchardBlockId": "REPLACE_WITH_MAPPED_TEST_BLOCK_UUID",
+    "pickId": "REPLACE_WITH_SELECT_PICK_UUID",
+    "lines": [
+      { "maturityAreaId": "REPLACE_WITH_FIRST_MA_UUID", "estimatedYieldPercent": 50, "sizingCode": "B" },
+      { "maturityAreaId": "REPLACE_WITH_SECOND_MA_UUID", "estimatedYieldPercent": 50, "sizingCode": "3C" }
+    ]
+  },
+  "split": {
+    "orchardBlockId": "REPLACE_WITH_SEPARATE_UNMAPPED_BLOCK_UUID",
+    "pickId": "REPLACE_WITH_SPLIT_PICK_UUID",
+    "unmappedGeometryConfirmed": false,
+    "lines": [
+      { "maturityAreaId": "REPLACE_WITH_FIRST_MA_UUID", "percentOfBlock": 50 },
+      { "maturityAreaId": "REPLACE_WITH_SECOND_MA_UUID", "percentOfBlock": 50 }
+    ]
+  },
+  "reversal": {
+    "effectiveDate": "2027-07-02",
+    "reason": "E2E-07 test reversal after verifying the applied Select Pick."
+  }
+}

@@ -1,0 +1,151 @@
+{
+  "id": "map-toolbar-layout",
+  "title": "Move and collapse the map toolbar",
+  "description": "Collapse, expand and reposition the draggable map toolbar.",
+  "category": "Map tools",
+  "order": 68,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Move and collapse the map toolbar",
+    "mode": "safe",
+    "dataGated": false
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Collapse the toolbar",
+      "instruction": "Use the chevron to reduce the toolbar to its compact state.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='workbench-map-toolbar-toggle']"
+          }
+        },
+        {
+          "type": "assertAttribute",
+          "locator": {
+            "selector": "[data-guide='workbench-map-toolbar']"
+          },
+          "name": "data-collapsed",
+          "value": "true"
+        }
+      ],
+      "capture": {
+        "file": "01-collapsed.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='workbench-map-toolbar']"
+            },
+            "label": "Collapsed toolbar",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='workbench-map-toolbar-toggle']"
+            },
+            "label": "Expand",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Expand and move the toolbar",
+      "instruction": "Expand the toolbar, then drag it to a convenient map position.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='workbench-map-toolbar-toggle']"
+          }
+        },
+        {
+          "type": "assertAttribute",
+          "locator": {
+            "selector": "[data-guide='workbench-map-toolbar']"
+          },
+          "name": "data-collapsed",
+          "value": "false"
+        },
+        {
+          "type": "dragBy",
+          "locator": {
+            "selector": "[data-guide='workbench-map-toolbar-drag']"
+          },
+          "deltaX": 100,
+          "deltaY": 55,
+          "steps": 10,
+          "settleMs": 500
+        }
+      ],
+      "capture": {
+        "file": "02-moved.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='workbench-map-toolbar-drag']"
+            },
+            "label": "Drag handle",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='workbench-map-toolbar-toggle']"
+            },
+            "label": "Collapse or expand",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "role": "button",
+        "name": "Reset Orchard Workbench map toolbar position"
+      },
+      "timeoutMs": 1500
+    }
+  ]
+}

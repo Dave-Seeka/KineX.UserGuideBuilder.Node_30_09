@@ -1,0 +1,272 @@
+{
+  "id": "block-hectares-pin-3025",
+  "description": "CSV candidate PIN 3025. Real source Property/Block rings, fixed NZTM coordinates. Orchard is synthetic 0.5% centroid inset, NOT authoritative. Approval for test writes NOT supplied.",
+  "source": {
+    "propertyGlobalId": "bf2f50b0-53ef-47f1-9eb9-2347417ea477",
+    "orchardId": "31404",
+    "orchardPin": "3025",
+    "orchardKey": "ORCHARD:31404|CROP:KIWIFRUIT",
+    "cropCode": "KIWIFRUIT",
+    "seasonEffectiveDate": "2026-07-01",
+    "crosswalkStatus": "crosswalk_candidate",
+    "approvalStatus": "not-recorded",
+    "sourceCsv": "output/cab-2027-review/Orchards/business-gis-block-review.csv"
+  },
+  "e2e": {
+    "spatialReferenceWkid": 2193,
+    "placementMode": "fixed",
+    "approvalStatus": "unapproved-candidate",
+    "approvalRequiredEnvironment": "KINEX_PIN3025_TEST_WRITE_APPROVED",
+    "targetPlacement": {
+      "wkid": 2193,
+      "location": "PIN 3025 Te Puke source polygon (no translation; candidate only)",
+      "bounds": {
+        "xmin": 1890791.4997,
+        "ymin": 5812694.9214,
+        "xmax": 1891069.0161,
+        "ymax": 5812896.0786
+      }
+    },
+    "property": {
+      "geometry": [
+        [
+          1890833.4746,
+          5812708.1007
+        ],
+        [
+          1891058.487,
+          5812699.9214
+        ],
+        [
+          1891064.0161,
+          5812852.0285
+        ],
+        [
+          1891018.4783,
+          5812891.0786
+        ],
+        [
+          1890833.0299,
+          5812848.3571
+        ],
+        [
+          1890796.4997,
+          5812709.4468
+        ],
+        [
+          1890833.4746,
+          5812708.1007
+        ]
+      ],
+      "source": "CSV Property GIS GlobalID bf2f50b0-53ef-47f1-9eb9-2347417ea477"
+    },
+    "orchard": {
+      "geometry": [
+        [
+          1890834.0234,
+          5812708.4891
+        ],
+        [
+          1891057.9108,
+          5812700.3507
+        ],
+        [
+          1891063.4122,
+          5812851.6973
+        ],
+        [
+          1891018.1021,
+          5812890.5521
+        ],
+        [
+          1890833.5809,
+          5812848.0442
+        ],
+        [
+          1890797.2334,
+          5812709.8285
+        ],
+        [
+          1890834.0234,
+          5812708.4891
+        ]
+      ],
+      "source": "DERIVED: Property polygon scaled 0.995 about centroid; not a source Orchard boundary",
+      "authoritative": false
+    },
+    "blocks": [
+      {
+        "sourceBlockCode": "1",
+        "sourcePhysicalAreaId": "297807",
+        "sourceGisGlobalId": "840700ef-3c6e-4fbf-8359-fa15b22d653c",
+        "sourceGisAreaHectares": 0.285932,
+        "businessAreaHectares": "0.29",
+        "destructiveTestBlock": false,
+        "geometry": [
+          [
+            1890821.0953,
+            5812772.5989
+          ],
+          [
+            1890820.3683,
+            5812760.3639
+          ],
+          [
+            1890818.5988,
+            5812760.278
+          ],
+          [
+            1890816.8339,
+            5812717.4369
+          ],
+          [
+            1890842.4929,
+            5812716.6224
+          ],
+          [
+            1890844.9639,
+            5812781.5117
+          ],
+          [
+            1890846.0498,
+            5812810.5579
+          ],
+          [
+            1890854.3573,
+            5812810.0694
+          ],
+          [
+            1890856.119,
+            5812848.6537
+          ],
+          [
+            1890841.7885,
+            5812845.5434
+          ],
+          [
+            1890837.541,
+            5812841.5757
+          ],
+          [
+            1890836.2601,
+            5812825.5391
+          ],
+          [
+            1890832.0205,
+            5812825.5406
+          ],
+          [
+            1890830.9148,
+            5812809.2567
+          ],
+          [
+            1890827.2097,
+            5812809.3877
+          ],
+          [
+            1890824.8565,
+            5812772.3918
+          ],
+          [
+            1890821.0953,
+            5812772.5989
+          ]
+        ]
+      },
+      {
+        "sourceBlockCode": "2",
+        "sourcePhysicalAreaId": "297808",
+        "sourceGisGlobalId": "f9ff2570-e7c1-43e0-b337-d3be90ba98e2",
+        "sourceGisAreaHectares": 0.613218,
+        "businessAreaHectares": "0.61",
+        "destructiveTestBlock": false,
+        "geometry": [
+          [
+            1890854.4391,
+            5812810.5117
+          ],
+          [
+            1890850.8303,
+            5812715.3167
+          ],
+          [
+            1890894.9317,
+            5812713.5903
+          ],
+          [
+            1890900.282,
+            5812858.6387
+          ],
+          [
+            1890856.1651,
+            5812848.7077
+          ],
+          [
+            1890854.4391,
+            5812810.5117
+          ]
+        ]
+      },
+      {
+        "sourceBlockCode": "3",
+        "sourcePhysicalAreaId": "297809",
+        "sourceGisGlobalId": "50644169-ae52-43b4-a0e9-f314278c0574",
+        "sourceGisAreaHectares": 1.563477,
+        "businessAreaHectares": "1.50",
+        "destructiveTestBlock": true,
+        "geometry": [
+          [
+            1890907.7388,
+            5812859.0706
+          ],
+          [
+            1890902.6652,
+            5812713.7341
+          ],
+          [
+            1891000.4438,
+            5812709.4409
+          ],
+          [
+            1891007.5131,
+            5812881.8068
+          ],
+          [
+            1890907.7388,
+            5812859.0706
+          ]
+        ]
+      },
+      {
+        "sourceBlockCode": "4",
+        "sourcePhysicalAreaId": "297810",
+        "sourceGisGlobalId": "db732146-fed4-432f-90e5-b2058ce05773",
+        "sourceGisAreaHectares": 0.704946,
+        "businessAreaHectares": "0.70",
+        "destructiveTestBlock": false,
+        "geometry": [
+          [
+            1891016.5661,
+            5812886.1608
+          ],
+          [
+            1891010.1734,
+            5812709.208
+          ],
+          [
+            1891053.6573,
+            5812707.5025
+          ],
+          [
+            1891059.6229,
+            5812851.1382
+          ],
+          [
+            1891016.5661,
+            5812886.1608
+          ]
+        ]
+      }
+    ]
+  }
+}

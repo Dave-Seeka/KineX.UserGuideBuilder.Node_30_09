@@ -1,0 +1,245 @@
+{
+  "id": "orchard-link-filters",
+  "title": "Filter linked and unlinked Orchards",
+  "description": "Switch among All, Linked and Unlinked map-link states.",
+  "category": "Navigation and selection",
+  "order": 34,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Filter linked and unlinked Orchards",
+    "mode": "safe",
+    "dataGated": false
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Show linked Orchards",
+      "instruction": "Select Map to show records with an ArcGIS shape.",
+      "actions": [
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "button[role='tab'][title='Orchards']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='orchard-link-filter-trigger']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='orchard-filter-linked']"
+          }
+        },
+        {
+          "type": "waitForTimeout",
+          "ms": 500
+        }
+      ],
+      "capture": {
+        "file": "01-linked.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-link-filter-trigger']"
+            },
+            "label": "Map filter active",
+            "number": 1,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-list']"
+            },
+            "label": "Linked Orchards",
+            "number": 2,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6,
+            "optional": true
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-empty']"
+            },
+            "label": "No linked Orchards",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6,
+            "optional": true
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertAttribute",
+          "locator": {
+            "selector": "[data-guide='orchard-link-filter-trigger']"
+          },
+          "name": "class",
+          "contains": "workbench-link-filter__trigger--active"
+        }
+      ]
+    },
+    {
+      "heading": "Show unlinked Orchards",
+      "instruction": "Select No Map to find records that still need a map shape.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='orchard-link-filter-trigger']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='orchard-filter-unlinked']"
+          }
+        },
+        {
+          "type": "waitForTimeout",
+          "ms": 500
+        }
+      ],
+      "capture": {
+        "file": "02-unlinked.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-link-filter-trigger']"
+            },
+            "label": "No Map filter active",
+            "number": 1,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-list']"
+            },
+            "label": "Unlinked Orchards",
+            "number": 2,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6,
+            "optional": true
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-empty']"
+            },
+            "label": "No unlinked Orchards",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6,
+            "optional": true
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertAttribute",
+          "locator": {
+            "selector": "[data-guide='orchard-link-filter-trigger']"
+          },
+          "name": "class",
+          "contains": "workbench-link-filter__trigger--active"
+        }
+      ]
+    },
+    {
+      "heading": "Return to all Orchards",
+      "instruction": "Restore All records before leaving the navigator.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='orchard-link-filter-trigger']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='orchard-filter-all']"
+          }
+        },
+        {
+          "type": "waitForTimeout",
+          "ms": 400
+        }
+      ],
+      "capture": {
+        "file": "03-all.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-link-filter-trigger']"
+            },
+            "label": "All records",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertAttribute",
+          "locator": {
+            "selector": "[data-guide='orchard-link-filter-trigger']"
+          },
+          "name": "class",
+          "exact": "workbench-link-filter__trigger"
+        }
+      ]
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='orchard-link-filter-trigger']"
+      },
+      "timeoutMs": 1500
+    },
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='orchard-filter-all']"
+      },
+      "timeoutMs": 1500
+    }
+  ]
+}

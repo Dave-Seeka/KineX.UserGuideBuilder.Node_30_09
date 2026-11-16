@@ -1,0 +1,162 @@
+{
+  "id": "map-basemap-layers",
+  "title": "Review basemap and layers",
+  "description": "Review the current Satellite-only basemap control and open the live operational layer menu.",
+  "category": "Map tools",
+  "order": 70,
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Review basemap availability",
+      "instruction": "The current Workbench HTML exposes the Basemap control but keeps it disabled while Satellite is the only enabled basemap.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='map-basemap-menu-button']"
+          }
+        },
+        {
+          "type": "assertDisabled",
+          "locator": {
+            "selector": "[data-guide='map-basemap-menu-button']"
+          }
+        }
+      ],
+      "capture": {
+        "file": "01-basemap-control.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='map-basemap-menu-button']"
+            },
+            "label": "Satellite-only basemap",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='map-layers-menu-button']"
+            },
+            "label": "Layer controls",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertDisabled",
+          "label": "Basemap menu disabled",
+          "locator": {
+            "selector": "[data-guide='map-basemap-menu-button']"
+          }
+        }
+      ]
+    },
+    {
+      "heading": "Open Layers",
+      "instruction": "Open Layers to review operational layers, label toggles and Pick strategy indicators.",
+      "actions": [
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='map-layers-menu-button']:not(:disabled)"
+          }
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='map-layers-menu-button']"
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='map-layers-menu']"
+          }
+        }
+      ],
+      "capture": {
+        "file": "02-layers-menu.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='map-layers-menu']"
+            },
+            "label": "Layers, labels and indicators",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='map-indicator-pick-strategies']"
+            },
+            "label": "Pick strategy indicators",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6,
+            "optional": true
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertVisible",
+          "label": "Layers menu visible",
+          "locator": {
+            "selector": "[data-guide='map-layers-menu']"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='map-layers-menu-button']"
+      },
+      "timeoutMs": 1500
+    }
+  ],
+  "profiles": [
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Change basemap and layers",
+    "mode": "safe",
+    "dataGated": true
+  }
+}

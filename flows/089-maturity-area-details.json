@@ -1,0 +1,212 @@
+{
+  "id": "maturity-area-details",
+  "title": "View Maturity Area details",
+  "description": "Review MA Overview, derived Clearance / CTP requirement, Block allocation and Activity.",
+  "category": "View details",
+  "order": 89,
+  "profiles": [
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "View Maturity Area details",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "At least one Maturity Area is available."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Open Maturity Area Overview",
+      "instruction": "Select a Maturity Area to review current profile, map state and clearance/CTP requirement.",
+      "actions": [
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "clickUntilVisible",
+          "locator": {
+            "selector": "button[role='tab'][title='Maturity Areas']"
+          },
+          "successLocator": {
+            "selector": "[data-guide='maturity-area-navigator']"
+          },
+          "timeoutMs": 20000,
+          "perAttemptTimeoutMs": 1200
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='maturity-area-navigator']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": ".workbench-ma-row button[aria-label^='Select Maturity Area ']"
+          },
+          "minCount": 1,
+          "message": "No Maturity Area is available for the selected scope.",
+          "timeoutMs": 15000
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": ".workbench-ma-row button[aria-label^='Select Maturity Area ']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='maturity area']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "01-overview.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='ma-bf-code']"
+            },
+            "label": "MA code",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='ma-bf-clearance-ctp']"
+            },
+            "label": "Clearance / CTP",
+            "number": 2,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='ma-bf-map']"
+            },
+            "label": "Map state",
+            "number": 3,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6,
+            "optional": true
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Review Block allocation",
+      "instruction": "Allocation lists Blocks in the MA and exposes Pick strategy indicators and Block lifecycle actions when applicable.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "role": "tab",
+            "name": "Allocation",
+            "exact": true
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='ma-blocks-tab']"
+          }
+        }
+      ],
+      "capture": {
+        "file": "02-allocation.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='ma-blocks-tab']"
+            },
+            "label": "MA Block allocation",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='ma-block-pick-strategy-indicator']"
+            },
+            "label": "Active Pick strategy",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6,
+            "optional": true
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Review Activity",
+      "instruction": "Activity keeps effective profile and Pick strategy audit history together.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "role": "tab",
+            "name": "Activity",
+            "exact": true
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-activity-content']"
+          }
+        }
+      ],
+      "capture": {
+        "file": "03-activity.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-activity-content']"
+            },
+            "label": "MA activity",
+            "number": 1,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='pick-strategy-reference']"
+            },
+            "label": "Pick strategy reference",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6,
+            "optional": true
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "id": "basemap-change",
+  "title": "Review current basemap availability",
+  "description": "Confirm the current Workbench exposes Satellite as the configured basemap and does not offer an interactive basemap change while alternatives are disabled.",
+  "category": "Map tools",
+  "order": 72,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Change and restore the basemap",
+    "mode": "safe",
+    "dataGated": false
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Review the Basemap control",
+      "instruction": "The current HTML renders the Basemap trigger disabled. Terrain, Street and Hybrid are not currently selectable from Workbench.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='map-basemap-menu-button']"
+          }
+        },
+        {
+          "type": "assertDisabled",
+          "locator": {
+            "selector": "[data-guide='map-basemap-menu-button']"
+          }
+        },
+        {
+          "type": "assertAttribute",
+          "locator": {
+            "selector": "[data-guide='map-basemap-menu-button']"
+          },
+          "name": "title",
+          "exact": "Choose basemap"
+        }
+      ],
+      "capture": {
+        "file": "01-basemap-disabled.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='map-basemap-menu-button']"
+            },
+            "label": "Basemap currently fixed",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertDisabled",
+          "label": "Basemap cannot be changed",
+          "locator": {
+            "selector": "[data-guide='map-basemap-menu-button']"
+          }
+        }
+      ]
+    }
+  ]
+}

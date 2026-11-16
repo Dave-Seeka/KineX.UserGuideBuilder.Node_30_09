@@ -1,0 +1,279 @@
+{
+  "id": "mutation-edit-property",
+  "title": "Verify Property save notification",
+  "description": "Save and restore the editable Property area using the current effective-dated Business Form edit flow, then verify notifications.",
+  "category": "Mutation verification",
+  "order": 324,
+  "profiles": [
+    "mutation"
+  ],
+  "mutation": true,
+  "coverage": {
+    "capability": "Verify Property save notification",
+    "mode": "mutation",
+    "dataGated": true
+  },
+  "safety": "This verification flow changes the Property area temporarily and restores the original value after the save check.",
+  "prerequisites": [
+    "Run after the mutation create-Orchard flow in a disposable environment with Property edit permission."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Save and restore Property area",
+      "instruction": "Edit Property area, save it, then restore the original value using the current effective-date flow.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "role": "tab",
+            "name": "Properties",
+            "exact": true
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='property-navigator']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": ".workbench-property-row button[aria-label^='Select Property ']"
+          },
+          "minCount": 1,
+          "message": "No editable Property is available.",
+          "timeoutMs": 15000
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": ".workbench-property-row button[aria-label^='Select Property ']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='property']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='business-edit-action']:not(:disabled)"
+          },
+          "minCount": 1,
+          "message": "Edit is unavailable for this record.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='business-edit-action']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='schedule-change-modal']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "clickIfVisible",
+          "locator": {
+            "role": "button",
+            "name": "Use viewed state",
+            "exact": true
+          },
+          "timeoutMs": 1500
+        },
+        {
+          "type": "click",
+          "locator": {
+            "role": "button",
+            "name": "Continue",
+            "exact": true
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='property'][data-guide-mode='edit']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "rememberValue",
+          "key": "originalPropertyArea",
+          "locator": {
+            "selector": "input[aria-label='Area hectares']"
+          }
+        },
+        {
+          "type": "evaluate",
+          "script": "(() => { const input = document.querySelector(\"input[aria-label='Area hectares']\"); if (!input) throw new Error('Editable Property area input was not found.'); const current = Number.parseFloat(input.value || '0'); const next = Number.isFinite(current) ? current + 0.01 : 0.01; input.value = next.toFixed(2); input.dispatchEvent(new Event('input', { bubbles: true })); input.dispatchEvent(new Event('blur', { bubbles: true })); })()"
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='business-edit-save'] button"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='business-edit-save'] button"
+          }
+        },
+        {
+          "type": "assertToast",
+          "contains": "saved",
+          "tone": "success",
+          "timeoutMs": 30000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='business-edit-action']:not(:disabled)"
+          },
+          "minCount": 1,
+          "message": "Edit is unavailable for this record.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='business-edit-action']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='schedule-change-modal']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "clickIfVisible",
+          "locator": {
+            "role": "button",
+            "name": "Use viewed state",
+            "exact": true
+          },
+          "timeoutMs": 1500
+        },
+        {
+          "type": "click",
+          "locator": {
+            "role": "button",
+            "name": "Continue",
+            "exact": true
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='property'][data-guide-mode='edit']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "input[aria-label='Area hectares']"
+          },
+          "value": "{{originalPropertyArea}}"
+        },
+        {
+          "type": "press",
+          "locator": {
+            "selector": "input[aria-label='Area hectares']"
+          },
+          "key": "Tab"
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": {
+            "selector": "[data-guide='business-edit-save'] button"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='business-edit-save'] button"
+          }
+        },
+        {
+          "type": "assertToast",
+          "contains": "saved",
+          "tone": "success",
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='property'][data-guide-mode='view']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "01-restored.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-shell']"
+            },
+            "label": "Original Property area restored",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertAttribute",
+          "label": "Property returned to view mode",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='property']"
+          },
+          "name": "data-guide-mode",
+          "exact": "view"
+        }
+      ]
+    }
+  ]
+}

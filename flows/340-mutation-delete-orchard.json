@@ -1,0 +1,160 @@
+{
+  "id": "mutation-delete-orchard",
+  "title": "Verify Orchard delete notification",
+  "description": "Delete the guide-owned Orchard after its dependent Block has been removed, then verify the Deleted toast.",
+  "category": "Mutation verification",
+  "order": 340,
+  "profiles": [
+    "mutation"
+  ],
+  "mutation": true,
+  "coverage": {
+    "capability": "Verify Orchard delete notification",
+    "mode": "mutation",
+    "dataGated": true
+  },
+  "safety": "Only records using the configured guide test prefix may be deleted.",
+  "prerequisites": [
+    "Run last, after the mutation Block cleanup flow."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Delete the guide-owned Orchard",
+      "instruction": "Search by the configured guide prefix, open Delete, confirm and verify the notification.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "button[role='tab'][title='Orchards']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-navigator']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='orchard-search']"
+          },
+          "value": "{{mutations.testPrefix}} Orchard"
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='orchard-select']"
+          },
+          "minCount": 1,
+          "message": "No guide-owned Orchard is available for cleanup.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='orchard-select']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='context-delete-action']:not(:disabled)"
+          },
+          "minCount": 1,
+          "message": "Orchard delete is unavailable.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='context-delete-action']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='delete-dialog']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='delete-confirm'] button"
+          }
+        },
+        {
+          "type": "assertToast",
+          "contains": "deleted successfully",
+          "tone": "success",
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-navigator']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "01-deleted.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-navigator']"
+            },
+            "label": "Guide Orchard removed",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertCount",
+          "label": "Guide Orchard removed",
+          "locator": {
+            "selector": "[data-guide='orchard-select']"
+          },
+          "exact": 0,
+          "visibleOnly": true
+        }
+      ]
+    }
+  ]
+}

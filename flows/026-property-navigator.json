@@ -1,0 +1,194 @@
+{
+  "id": "property-navigator",
+  "title": "Find and select Properties",
+  "description": "Use the Property navigator to find records whether or not they currently have a map boundary.",
+  "category": "Navigation and selection",
+  "order": 26,
+  "profiles": [
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Find and select Properties",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "At least one Property is available for the selected effective date."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Open the Property navigator",
+      "instruction": "Select Properties to browse Property records independently of their map boundaries.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "role": "tab",
+            "name": "Properties"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='property-navigator']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": ".workbench-property-row button[aria-label^='Select Property ']"
+          },
+          "message": "No Properties are available for the selected effective date.",
+          "minCount": 1,
+          "timeoutMs": 15000
+        }
+      ],
+      "checks": [
+        {
+          "type": "assertVisible",
+          "label": "Property navigator visible",
+          "locator": {
+            "selector": "[data-guide='property-navigator']"
+          }
+        },
+        {
+          "type": "assertCount",
+          "label": "Properties available",
+          "locator": {
+            "selector": ".workbench-property-row button[aria-label^='Select Property ']"
+          },
+          "min": 1,
+          "visibleOnly": true
+        },
+        {
+          "type": "assertHidden",
+          "label": "Boundary resolution completed",
+          "locator": {
+            "text": "Checking Property boundaries\u2026",
+            "exact": true
+          },
+          "timeoutMs": 30000
+        }
+      ],
+      "capture": {
+        "file": "01-property-navigator.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "role": "tab",
+              "name": "Properties"
+            },
+            "label": "Properties tab",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='property-search']"
+            },
+            "label": "Property search",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": ".workbench-property-list"
+            },
+            "label": "Recoverable Property records",
+            "number": 3,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Select a Property",
+      "instruction": "Select a Property to open its business details, including Properties without boundaries.",
+      "actions": [
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": ".workbench-property-row button[aria-label^='Select Property ']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='property']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "checks": [
+        {
+          "type": "assertVisible",
+          "label": "Selected Property row",
+          "locator": {
+            "selector": ".workbench-property-row--selected button"
+          }
+        },
+        {
+          "type": "assertVisible",
+          "label": "Property details loaded",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='property']"
+          }
+        }
+      ],
+      "capture": {
+        "file": "02-selected-property.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": ".workbench-property-row--selected button"
+            },
+            "label": "Selected Property",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-shell'][data-guide-entity='property']"
+            },
+            "label": "Property details",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ]
+}

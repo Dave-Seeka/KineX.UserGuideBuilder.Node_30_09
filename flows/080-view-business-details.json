@@ -1,0 +1,120 @@
+{
+  "id": "view-business-details",
+  "title": "View Orchard details",
+  "description": "Select an Orchard to review its business attributes and geometry state.",
+  "category": "Records",
+  "order": 80,
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "View permission for Orchard details."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Select an Orchard",
+      "instruction": "Select an Orchard row in the navigator.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForTimeout",
+          "ms": 1200
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='orchard-select']"
+          },
+          "message": "No Orchard is available.",
+          "minCount": 1,
+          "timeoutMs": 10000
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='orchard-select']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "01-details.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='orchard-row']"
+            },
+            "label": "Selected Orchard",
+            "number": 1,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-shell']"
+            },
+            "label": "Business details",
+            "number": 2,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='geometry-status']"
+            },
+            "label": "Geometry status",
+            "number": 3,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6,
+            "optional": true
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='business-edit-action']"
+            },
+            "label": "Edit",
+            "number": 4,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6,
+            "optional": true
+          }
+        ]
+      }
+    }
+  ],
+  "profiles": [
+    "smoke",
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "View Orchard details",
+    "mode": "safe",
+    "dataGated": true
+  }
+}

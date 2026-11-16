@@ -1,0 +1,219 @@
+{
+  "id": "property-search",
+  "title": "Search and clear Properties",
+  "description": "Search Property records by code or address, review no-results feedback, then restore the full list.",
+  "category": "Navigation and selection",
+  "order": 27,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Search and clear Properties",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "At least one Property is available for the selected effective date."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Search for a Property",
+      "instruction": "Use part of the first Property code to narrow the list.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "click",
+          "locator": {
+            "role": "tab",
+            "name": "Properties"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='property-navigator']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": ".workbench-property-row strong"
+          },
+          "minCount": 1,
+          "message": "No Properties are available."
+        },
+        {
+          "type": "fillFromText",
+          "source": {
+            "selector": ".workbench-property-row strong"
+          },
+          "locator": {
+            "selector": "[data-guide='property-search']"
+          },
+          "maxLength": 10
+        },
+        {
+          "type": "assertCount",
+          "locator": {
+            "selector": ".workbench-property-row"
+          },
+          "min": 1,
+          "visibleOnly": true
+        }
+      ],
+      "capture": {
+        "file": "01-property-search.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='property-search']"
+            },
+            "label": "Search by code or address",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": ".workbench-property-list"
+            },
+            "label": "Matching Properties",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Review no matches",
+      "instruction": "Enter a value that cannot match a Property code or address.",
+      "actions": [
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='property-search']"
+          },
+          "value": "__NO_PROPERTY_{{runId}}__"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "text": "No Properties match this code, address, or location.",
+            "exact": true
+          },
+          "timeoutMs": 10000
+        }
+      ],
+      "checks": [
+        {
+          "type": "assertText",
+          "label": "Property no-results message",
+          "locator": {
+            "text": "No Properties match this code, address, or location.",
+            "exact": true
+          },
+          "exactText": "No Properties match this code, address, or location."
+        }
+      ],
+      "capture": {
+        "file": "02-property-no-results.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='property-search']"
+            },
+            "label": "No-match search",
+            "number": 1,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "text": "No Properties match this code, address, or location.",
+              "exact": true
+            },
+            "label": "No matching Properties",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Clear the search",
+      "instruction": "Clear the search box to restore all available Properties.",
+      "actions": [
+        {
+          "type": "fill",
+          "locator": {
+            "selector": "[data-guide='property-search']"
+          },
+          "value": ""
+        },
+        {
+          "type": "assertCount",
+          "locator": {
+            "selector": ".workbench-property-row"
+          },
+          "min": 1,
+          "visibleOnly": true
+        }
+      ],
+      "capture": {
+        "file": "03-property-search-cleared.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='property-search']"
+            },
+            "label": "Search cleared",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": ".workbench-property-list"
+            },
+            "label": "All Properties restored",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "fill",
+      "locator": {
+        "selector": "[data-guide='property-search']"
+      },
+      "value": "",
+      "optional": true
+    }
+  ]
+}

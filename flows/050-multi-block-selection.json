@@ -1,0 +1,249 @@
+{
+  "id": "multi-block-selection",
+  "title": "Select multiple Blocks",
+  "description": "Select more than one Block and review the modern multi-Block Business Form.",
+  "category": "Navigation and selection",
+  "order": 50,
+  "profiles": [
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Select multiple Blocks",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "One Orchard has at least two Blocks."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Open an Orchard with multiple Blocks",
+      "instruction": "Open an Orchard that has at least two Blocks and review the selection controls.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "clickCandidateUntil",
+          "locator": {
+            "selector": "[data-guide='open-blocks']"
+          },
+          "successLocator": {
+            "selector": "[data-guide='block-select']"
+          },
+          "resetLocator": {
+            "selector": "[data-guide='back-to-orchards']"
+          },
+          "returnLocator": {
+            "selector": "[data-guide='orchard-navigator']"
+          },
+          "minCount": 2,
+          "perCandidateTimeoutMs": 4000,
+          "timeoutMs": 45000,
+          "message": "No Orchard with at least 2 Blocks is available."
+        }
+      ],
+      "capture": {
+        "file": "01-blocks.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='select-all-blocks']"
+            },
+            "label": "Select all",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='block-selection-count']"
+            },
+            "label": "Selected count",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='block-toggle']"
+            },
+            "label": "Block checkboxes",
+            "number": 3,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Select two Blocks",
+      "instruction": "Select two Block checkboxes. The right-hand Business Form switches to a combined Blocks view.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='block-toggle']"
+          },
+          "nth": 0,
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='block-toggle']"
+          },
+          "nth": 1,
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='blocks']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='multi-block-list']"
+          },
+          "timeoutMs": 20000
+        }
+      ],
+      "capture": {
+        "file": "02-overview.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='block-selection-count']"
+            },
+            "label": "Two Blocks selected",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-shell'][data-guide-entity='blocks']"
+            },
+            "label": "Combined Blocks view",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='multi-block-list']"
+            },
+            "label": "Selected Blocks",
+            "number": 3,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          }
+        ]
+      },
+      "checks": [
+        {
+          "type": "assertVisible",
+          "label": "Multi-Block Business Form",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='blocks']"
+          }
+        }
+      ]
+    },
+    {
+      "heading": "Review Allocation and Activity",
+      "instruction": "Use Allocation and Activity to review effective MA assignment and combined history for the selected Blocks.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "role": "tab",
+            "name": "Allocation",
+            "exact": true
+          }
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='multi-block-allocation-list']"
+          },
+          "timeoutMs": 10000
+        }
+      ],
+      "capture": {
+        "file": "03-allocation.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "role": "tab",
+              "name": "Allocation",
+              "exact": true
+            },
+            "label": "Allocation",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='multi-block-allocation-list']"
+            },
+            "label": "Effective MA allocation",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='multi-block-clear']"
+      },
+      "timeoutMs": 1500
+    },
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='back-to-orchards']"
+      },
+      "timeoutMs": 1500
+    }
+  ]
+}

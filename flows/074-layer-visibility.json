@@ -1,0 +1,142 @@
+{
+  "id": "layer-visibility",
+  "title": "Show and hide operational layers",
+  "description": "Toggle the Regions layer and restore it before leaving the guide.",
+  "category": "Map tools",
+  "order": 74,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Show and hide operational layers",
+    "mode": "safe",
+    "dataGated": false
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Hide Regions",
+      "instruction": "Open Layers and switch Regions off.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='map-layers-menu-button']"
+          }
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='map-layer-option-regions']"
+          },
+          "timeoutMs": 7000,
+          "minCount": 1,
+          "message": "Regions layer is not configured in the current operational Layers menu."
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='map-layer-option-regions']"
+          }
+        },
+        {
+          "type": "waitForTimeout",
+          "ms": 1000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='map-layers-menu-button']"
+          }
+        },
+        {
+          "type": "assertAttribute",
+          "locator": {
+            "selector": "[data-guide='map-layer-option-regions']"
+          },
+          "name": "aria-checked",
+          "value": "false"
+        }
+      ],
+      "capture": {
+        "file": "01-hidden.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='map-layers-menu']"
+            },
+            "label": "Visible layers",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='map-layer-option-regions']"
+            },
+            "label": "Regions off",
+            "number": 2,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Restore Regions",
+      "instruction": "Switch Regions on again.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='map-layer-option-regions']"
+          }
+        },
+        {
+          "type": "waitForTimeout",
+          "ms": 800
+        }
+      ],
+      "capture": {
+        "file": "02-restored.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='map-layers-menu-button']"
+            },
+            "label": "Layer count",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "id": "empty-business-state",
+  "title": "Review the no-selection state",
+  "description": "See the guidance shown before a Property, Orchard or Block is selected.",
+  "category": "View details",
+  "order": 82,
+  "profiles": [
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Review the no-selection state",
+    "mode": "safe",
+    "dataGated": false
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Clear the current selection",
+      "instruction": "Open the Workbench without selecting a record.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "clickIfVisible",
+          "locator": {
+            "selector": "[data-guide='map-tool-clear-selection']"
+          },
+          "timeoutMs": 2000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-empty']"
+          },
+          "timeoutMs": 15000
+        }
+      ],
+      "capture": {
+        "file": "01-empty.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-empty']"
+            },
+            "label": "Select a record to view details",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='workbench-sidebar']"
+            },
+            "label": "Choose a record here",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ]
+}

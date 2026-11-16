@@ -1,0 +1,273 @@
+{
+  "id": "latest-create-drawer-lifecycle",
+  "title": "Verify create drawer lifecycle",
+  "description": "Verify Continue, Previous, Cancel and reopen reset without saving.",
+  "category": "Latest create regression",
+  "order": 10,
+  "profiles": ["full"],
+  "mutation": false,
+  "coverage": {
+    "capability": "Create drawer lifecycle and state reset",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This regression flow does not submit, publish or delete records.",
+  "prerequisites": [
+    "Permission to create Orchards.",
+    "At least one Property is available."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Move forward and backward",
+      "instruction": "Open Create Orchard, select an existing Property, continue, then return to the parent step.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": { "selector": "[data-guide='orchard-workbench']" },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "require",
+          "locator": { "selector": "[data-guide='create-orchard']" },
+          "minCount": 1,
+          "timeoutMs": 10000,
+          "message": "Create Orchard is unavailable for the current permission or scope."
+        },
+        {
+          "type": "click",
+          "locator": { "selector": "[data-guide='create-orchard']" }
+        },
+        {
+          "type": "waitFor",
+          "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='orchard']" },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "skipIfVisible",
+          "locator": { "text": "Create-form options are temporarily rate limited" },
+          "message": "Create-form options are temporarily rate limited.",
+          "timeoutMs": 2000
+        },
+        {
+          "type": "click",
+          "locator": { "selector": "[data-guide='property-search'] input" }
+        },
+        {
+          "type": "require",
+          "locator": { "selector": "[data-guide='property-option']" },
+          "minCount": 1,
+          "timeoutMs": 15000,
+          "message": "No existing Property is available for the lifecycle regression."
+        },
+        {
+          "type": "clickFirst",
+          "locator": { "selector": "[data-guide='property-option']" }
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": { "selector": "[data-guide='create-continue-action'] button" },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": { "selector": "[data-guide='create-continue-action'] button" }
+        },
+        {
+          "type": "waitFor",
+          "locator": { "selector": "[data-guide='orchard-details-step']" },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": { "selector": "[data-guide='create-back-action'] button" }
+        },
+        {
+          "type": "waitFor",
+          "locator": { "selector": "[data-guide='orchard-parent-step']" },
+          "timeoutMs": 20000
+        }
+      ],
+      "checks": [
+        {
+          "type": "assertAttribute",
+          "label": "Returned to step one",
+          "locator": { "selector": "[data-guide='create-step-panel']" },
+          "name": "data-guide-step",
+          "exact": "1"
+        },
+        {
+          "type": "assertText",
+          "label": "Footer action returned to Cancel",
+          "locator": { "selector": "[data-guide='create-back-action'] button" },
+          "exactText": "Cancel"
+        }
+      ],
+      "capture": {
+        "file": "01-returned-to-parent.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": { "selector": "[data-guide='orchard-parent-step']" },
+            "label": "Parent step restored",
+            "number": 1,
+            "color": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": { "selector": "[data-guide='create-back-action'] button" },
+            "label": "Cancel",
+            "number": 2,
+            "color": "#d92d20",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Cancel and reopen",
+      "instruction": "Cancel the drawer, reopen it, and verify no in-progress form state leaked into the new session.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": { "selector": "[data-guide='create-back-action'] button" }
+        },
+        {
+          "type": "waitFor",
+          "locator": { "selector": "[data-guide='entity-create-drawer']" },
+          "state": "hidden",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "click",
+          "locator": { "selector": "[data-guide='create-orchard']" }
+        },
+        {
+          "type": "waitFor",
+          "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='orchard']" },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": { "selector": "[data-guide='orchard-parent-step']" },
+          "timeoutMs": 20000
+        }
+      ],
+      "checks": [
+        {
+          "type": "assertAttribute",
+          "label": "Reopened at step one",
+          "locator": { "selector": "[data-guide='create-step-panel']" },
+          "name": "data-guide-step",
+          "exact": "1"
+        },
+        {
+          "type": "assertText",
+          "label": "Reopened footer shows Cancel",
+          "locator": { "selector": "[data-guide='create-back-action'] button" },
+          "exactText": "Cancel"
+        },
+        {
+          "type": "assertHidden",
+          "label": "Prior Property selection was cleared",
+          "locator": { "selector": "[data-guide='property-selected']" }
+        },
+        {
+          "type": "assertDisabled",
+          "label": "Continue waits for a fresh parent selection",
+          "locator": { "selector": "[data-guide='create-continue-action'] button" }
+        },
+        {
+          "type": "assertHidden",
+          "label": "No stale create error",
+          "locator": { "selector": "[data-guide='create-error']" }
+        }
+      ],
+      "capture": {
+        "file": "02-reopened-clean.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": { "selector": "[data-guide='create-step-panel']" },
+            "label": "Fresh step one",
+            "number": 1,
+            "color": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": { "selector": "[data-guide='create-continue-action'] button" },
+            "label": "Fresh validation state",
+            "number": 2,
+            "color": "#b45309",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Close the regression session",
+      "instruction": "Cancel the reopened drawer without creating a record.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": { "selector": "[data-guide='create-back-action'] button" }
+        },
+        {
+          "type": "waitFor",
+          "locator": { "selector": "[data-guide='entity-create-drawer']" },
+          "state": "hidden",
+          "timeoutMs": 10000
+        }
+      ],
+      "checks": [
+        {
+          "type": "assertNoToast",
+          "label": "No record was created",
+          "contains": "created",
+          "durationMs": 1000
+        }
+      ],
+      "capture": {
+        "file": "03-closed.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": { "selector": "[data-guide='create-orchard']" },
+            "label": "Create Orchard available",
+            "number": 1,
+            "color": "#0058a4",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": { "selector": "[data-guide='create-back-action'] button" },
+      "timeoutMs": 1000
+    },
+    {
+      "type": "clickIfVisible",
+      "locator": { "selector": "[data-guide='create-back-action'] button" },
+      "timeoutMs": 1000
+    },
+    {
+      "type": "clickIfVisible",
+      "locator": { "selector": "[data-guide='create-back-action'] button" },
+      "timeoutMs": 1000
+    }
+  ]
+}

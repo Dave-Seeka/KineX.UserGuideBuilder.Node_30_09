@@ -1,0 +1,281 @@
+{
+  "id": "latest-property-temporal-policy",
+  "title": "Verify standalone Property temporal policy",
+  "description": "Verify Property creation resolves a valid effective-date range without a crop field and preserves it during navigation.",
+  "category": "Latest create regression",
+  "order": 20,
+  "profiles": ["full"],
+  "mutation": false,
+  "coverage": {
+    "capability": "Standalone Property season-definition policy",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This regression flow does not submit, publish or delete records.",
+  "prerequisites": [
+    "Permission to create Properties.",
+    "The selected app season has at least one valid Season Definition for the selected country."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Resolve the Property effective date",
+      "instruction": "Open standalone Property creation and select a country. The date must resolve without choosing a crop.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": { "selector": "[data-guide='orchard-workbench']" },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "require",
+          "locator": { "selector": "[data-guide='create-property']" },
+          "minCount": 1,
+          "timeoutMs": 10000,
+          "message": "Create Property is unavailable for the current permission or scope."
+        },
+        {
+          "type": "click",
+          "locator": { "selector": "[data-guide='create-property']" }
+        },
+        {
+          "type": "waitFor",
+          "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='property']" },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "skipIfVisible",
+          "locator": { "text": "Create-form options are temporarily rate limited" },
+          "message": "Create-form options are temporarily rate limited.",
+          "timeoutMs": 2000
+        },
+        {
+          "type": "selectFirstOption",
+          "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='property'] select" },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForEnabled",
+          "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='property'] input[type='date']" },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "rememberAttribute",
+          "key": "propertyMin",
+          "name": "min",
+          "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='property'] input[type='date']" }
+        },
+        {
+          "type": "rememberAttribute",
+          "key": "propertyMax",
+          "name": "max",
+          "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='property'] input[type='date']" }
+        },
+        {
+          "type": "rememberValue",
+          "key": "propertyDate",
+          "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='property'] input[type='date']" }
+        },
+        {
+          "type": "evaluate",
+          "script": "(() => { const input = document.querySelector(\"[data-guide='entity-create-drawer'][data-guide-entity='property'] input[type='date']\"); if (!input) throw new Error('Property effective-date input was not found.'); const { min, max, value } = input; if (!min || !max || !value) throw new Error(`Property temporal policy did not resolve: min='${min}', max='${max}', value='${value}'.`); if (min > max) throw new Error(`Property range is invalid: ${min} > ${max}.`); if (value < min || value > max) throw new Error(`Property effective date ${value} is outside ${min} - ${max}.`); })()"
+        }
+      ],
+      "checks": [
+        {
+          "type": "assertCount",
+          "label": "Property flow has no crop selector",
+          "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='property'] [data-guide='orchard-crop']" },
+          "exact": 0
+        },
+        {
+          "type": "assertAttribute",
+          "label": "Property minimum date resolved",
+          "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='property'] input[type='date']" },
+          "name": "min",
+          "matches": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        {
+          "type": "assertAttribute",
+          "label": "Property maximum date resolved",
+          "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='property'] input[type='date']" },
+          "name": "max",
+          "matches": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        {
+          "type": "assertValue",
+          "label": "Property effective date resolved",
+          "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='property'] input[type='date']" },
+          "matches": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        {
+          "type": "assertEnabled",
+          "label": "Property effective date is editable",
+          "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='property'] input[type='date']" }
+        }
+      ],
+      "capture": {
+        "file": "01-property-date-resolved.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='property'] select" },
+            "label": "Country only",
+            "number": 1,
+            "color": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='property'] input[type='date']" },
+            "label": "Resolved Property range",
+            "number": 2,
+            "color": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Preserve the Property temporal state",
+      "instruction": "Continue to Address, return to Basic information, and confirm the same resolved range and date remain.",
+      "actions": [
+        {
+          "type": "waitForEnabled",
+          "locator": { "selector": "[data-guide='create-continue-action'] button" },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "click",
+          "locator": { "selector": "[data-guide='create-continue-action'] button" }
+        },
+        {
+          "type": "waitFor",
+          "locator": { "selector": "[data-guide='create-step-panel'][data-guide-step='2']" },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": { "selector": "[data-guide='create-back-action'] button" }
+        },
+        {
+          "type": "waitFor",
+          "locator": { "selector": "[data-guide='create-step-panel'][data-guide-step='1']" },
+          "timeoutMs": 20000
+        }
+      ],
+      "checks": [
+        {
+          "type": "assertAttribute",
+          "label": "Property minimum date was preserved",
+          "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='property'] input[type='date']" },
+          "name": "min",
+          "exact": "{{propertyMin}}"
+        },
+        {
+          "type": "assertAttribute",
+          "label": "Property maximum date was preserved",
+          "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='property'] input[type='date']" },
+          "name": "max",
+          "exact": "{{propertyMax}}"
+        },
+        {
+          "type": "assertValue",
+          "label": "Property effective date was preserved",
+          "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='property'] input[type='date']" },
+          "exactText": "{{propertyDate}}"
+        },
+        {
+          "type": "assertText",
+          "label": "Step-one action is Cancel",
+          "locator": { "selector": "[data-guide='create-back-action'] button" },
+          "exactText": "Cancel"
+        }
+      ],
+      "capture": {
+        "file": "02-property-date-preserved.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": { "selector": "[data-guide='entity-create-drawer'][data-guide-entity='property'] input[type='date']" },
+            "label": "Preserved Property date",
+            "number": 1,
+            "color": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": { "selector": "[data-guide='create-back-action'] button" },
+            "label": "Cancel",
+            "number": 2,
+            "color": "#d92d20",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Cancel standalone Property creation",
+      "instruction": "Close the drawer without submitting the Property.",
+      "actions": [
+        {
+          "type": "click",
+          "locator": { "selector": "[data-guide='create-back-action'] button" }
+        },
+        {
+          "type": "waitFor",
+          "locator": { "selector": "[data-guide='entity-create-drawer']" },
+          "state": "hidden",
+          "timeoutMs": 10000
+        }
+      ],
+      "checks": [
+        {
+          "type": "assertNoToast",
+          "label": "No Property was created",
+          "contains": "created",
+          "durationMs": 1000
+        }
+      ],
+      "capture": {
+        "file": "03-property-cancelled.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": { "selector": "[data-guide='create-property']" },
+            "label": "Create Property available",
+            "number": 1,
+            "color": "#0058a4",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": { "selector": "[data-guide='create-back-action'] button" },
+      "timeoutMs": 1000
+    },
+    {
+      "type": "clickIfVisible",
+      "locator": { "selector": "[data-guide='create-back-action'] button" },
+      "timeoutMs": 1000
+    },
+    {
+      "type": "clickIfVisible",
+      "locator": { "selector": "[data-guide='create-back-action'] button" },
+      "timeoutMs": 1000
+    }
+  ]
+}

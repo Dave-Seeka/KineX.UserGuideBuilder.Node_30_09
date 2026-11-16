@@ -1,0 +1,41 @@
+{
+  "name": "kinex-user-guide-builder",
+  "version": "1.7.0",
+  "private": true,
+  "type": "module",
+  "description": "Standalone Playwright app for generating KineX user guides with annotated screenshots.",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "kinex-guide": "./src/cli.mjs"
+  },
+  "scripts": {
+    "setup": "playwright install chromium",
+    "auth": "node ./src/cli.mjs auth --config ./config.json",
+    "capture": "node ./src/cli.mjs capture --config ./config.json",
+    "capture:all": "node ./src/cli.mjs capture-all --config ./config.json --flows ./flows --profile full",
+    "validate": "node ./src/cli.mjs validate --flows ./flows",
+    "check": "node --check ./src/cli.mjs && node --check ./src/commands/capture.mjs && node --check ./src/commands/join.mjs && node --check ./src/commands/validate.mjs && node --check ./src/lib/browser.mjs && node --check ./src/lib/existing-ma-fixture.mjs && node --check ./src/lib/runner.mjs && node --check ./src/lib/e2e-scenario.mjs && node --check ./src/lib/highlights.mjs && node --check ./src/lib/actions.mjs && node --check ./src/lib/entity-wizard.mjs && node --check ./src/lib/assertions.mjs && node --check ./src/lib/flow-loader.mjs && node --check ./src/lib/collection-loader.mjs && node --check ./src/lib/join.mjs && node --check ./src/lib/output.mjs && node --check ./src/lib/rate-limit.mjs && node --check ./src/lib/map-ready.mjs && node --check ./src/lib/profiles.mjs && node --check ./src/lib/viewport-audit.mjs",
+    "join": "node ./src/cli.mjs join --config ./config.json --collections ./collections",
+    "test": "node --test ./tests/*.test.mjs",
+    "capture:smoke": "node ./src/cli.mjs capture-all --config ./config.json --flows ./flows --profile smoke",
+    "capture:core": "node ./src/cli.mjs capture-all --config ./config.json --flows ./flows --profile core",
+    "capture:full": "node ./src/cli.mjs capture-all --config ./config.json --flows ./flows --profile full",
+    "capture:mutations": "node ./src/cli.mjs capture-all --config ./config.json --flows ./flows --profile mutation",
+    "capture:laptop": "node ./src/cli.mjs capture-all --config ./config.json --flows ./flows --profile laptop --output-dir ./output-laptop",
+    "capture:laptop:mutations": "node ./src/cli.mjs capture-all --config ./config.json --flows ./flows --profile laptop-mutation --output-dir ./output-laptop-mutations",
+    "capture:block-hectares:e2e": "node ./src/cli.mjs capture --config ./config.json --flow ./flows/295-block-hectares-e2e-fixture.json --headed --no-pdf",
+    "capture:block-hectares:setup": "node ./src/cli.mjs capture --config ./config.json --flow ./flows/295-block-hectares-e2e-fixture.json --headed --no-pdf",
+    "capture:ma:review": "node ./src/cli.mjs capture --config ./config.json --flow ./flows/124-create-maturity-area.json --headed --no-pdf",
+    "capture:ma:requirements": "node ./src/cli.mjs capture --config ./config.json --flow ./flows/125-create-maturity-area-required-fields.json --headed --no-pdf",
+    "capture:ma:create": "node ./src/cli.mjs capture --config ./config.json --flow ./flows/335-mutation-create-maturity-area.json --headed --no-pdf",
+    "test:e2e": "node ./src/cli.mjs test-e2e --config ./config.json --scenario ./scenarios/pin3025-property-orchard-block-ma-e2e.json --headed --no-pdf",
+    "test:e2e:07": "node ./scripts/e2e-07.mjs",
+    "test:block-hectares:frontend:5255": "node ./scripts/test-block-hectares-5255.mjs",
+    "capture:ma:existing": "node ./src/cli.mjs capture --config ./config.json --flow ./flows/336-mutation-create-ma-existing-orchard.json --season 2027 --crop KIWIFRUIT --country NZ --headed --no-pdf"
+  },
+  "dependencies": {
+    "playwright": "1.61.1"
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "id": "map-navigation",
+  "title": "Navigate the ArcGIS map",
+  "description": "Use Home, Zoom In, Zoom Out and Browse controls.",
+  "category": "Map tools",
+  "order": 62,
+  "profiles": [
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Navigate the ArcGIS map",
+    "mode": "safe",
+    "dataGated": false
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Use map navigation controls",
+      "instruction": "Select each navigation tool and leave Browse active.",
+      "actions": [
+        {
+          "type": "goto",
+          "path": "/arcgis/orchard-workbench"
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='map-tool-home']"
+          }
+        },
+        {
+          "type": "waitForTimeout",
+          "ms": 600
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='map-tool-zoom-in']"
+          }
+        },
+        {
+          "type": "waitForTimeout",
+          "ms": 300
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='map-tool-zoom-out']"
+          }
+        },
+        {
+          "type": "waitForTimeout",
+          "ms": 300
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='map-tool-pan']"
+          }
+        },
+        {
+          "type": "assertAttribute",
+          "locator": {
+            "selector": "[data-guide='map-tool-pan']"
+          },
+          "name": "class",
+          "contains": "gis-tool-button--active"
+        }
+      ],
+      "capture": {
+        "file": "01-navigation.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='map-tool-home']"
+            },
+            "label": "Home",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='map-tool-zoom-in']"
+            },
+            "label": "Zoom in",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='map-tool-zoom-out']"
+            },
+            "label": "Zoom out",
+            "number": 3,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='map-tool-pan']"
+            },
+            "label": "Browse",
+            "number": 4,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          }
+        ]
+      }
+    }
+  ]
+}

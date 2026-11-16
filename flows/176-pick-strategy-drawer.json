@@ -1,0 +1,227 @@
+{
+  "id": "pick-strategy-drawer",
+  "title": "Use Select Pick",
+  "description": "Open Select Pick for an assigned Block and review sizing-based allocation and estimated yield without applying the strategy.",
+  "category": "Pick strategies",
+  "order": 176,
+  "profiles": [
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Use Select Pick",
+    "mode": "safe",
+    "dataGated": true
+  },
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "A Maturity Area has at least one assigned Block and Select Pick permission."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Find Select Pick",
+      "instruction": "In MA Allocation, Select Pick is the direct additional action for an assigned Block.",
+      "actions": [
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "clickUntilVisible",
+          "locator": {
+            "selector": "button[role='tab'][title='Maturity Areas']"
+          },
+          "successLocator": {
+            "selector": "[data-guide='maturity-area-navigator']"
+          },
+          "timeoutMs": 20000,
+          "perAttemptTimeoutMs": 1200
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='maturity-area-navigator']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": ".workbench-ma-row button[aria-label^='Select Maturity Area ']"
+          },
+          "minCount": 1,
+          "message": "No Maturity Area is available for the selected scope.",
+          "timeoutMs": 15000
+        },
+        {
+          "type": "clickCandidateUntil",
+          "locator": {
+            "selector": ".workbench-ma-row button[aria-label^='Select Maturity Area ']"
+          },
+          "afterClickActions": [
+            {
+              "type": "waitFor",
+              "locator": {
+                "selector": "[data-guide='business-form-shell'][data-guide-entity='maturity area']"
+              },
+              "timeoutMs": 5000
+            },
+            {
+              "type": "click",
+              "locator": {
+                "role": "tab",
+                "name": "Allocation",
+                "exact": true
+              },
+              "timeoutMs": 5000
+            },
+            {
+              "type": "waitFor",
+              "locator": {
+                "selector": "[data-guide='ma-blocks-tab']"
+              },
+              "timeoutMs": 5000
+            }
+          ],
+          "successLocator": {
+            "selector": "[data-guide='multi-block-table-additional-action'][aria-label^='Select Pick ']:not(:disabled)"
+          },
+          "timeoutMs": 60000,
+          "perCandidateTimeoutMs": 6000,
+          "message": "No Maturity Area currently exposes Select Pick for the required Block state."
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='multi-block-table-additional-action'][aria-label^='Select Pick ']:not(:disabled)"
+          },
+          "minCount": 1,
+          "message": "Select Pick is not available on the selected Maturity Area.",
+          "timeoutMs": 10000
+        }
+      ],
+      "capture": {
+        "file": "01-select-pick-action.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='multi-block-table-additional-action'][aria-label^='Select Pick ']:not(:disabled)"
+            },
+            "label": "Select Pick",
+            "number": 1,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='ma-blocks-tab']"
+            },
+            "label": "MA Block allocation",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          }
+        ]
+      }
+    },
+    {
+      "heading": "Review Select Pick allocation",
+      "instruction": "Open Select Pick to assign sizings to destination MAs. Estimated yield is a planning share, not packed volume or physical Block area.",
+      "actions": [
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='multi-block-table-additional-action'][aria-label^='Select Pick ']:not(:disabled)"
+          },
+          "timeoutMs": 10000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='ma-allocation-drawer'][data-guide-strategy='select']"
+          },
+          "timeoutMs": 10000
+        }
+      ],
+      "capture": {
+        "file": "02-select-pick-drawer.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='pick-strategy-selector']"
+            },
+            "label": "Split / Select strategy",
+            "number": 1,
+            "color": "#7c3aed",
+            "labelBackground": "#7c3aed",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='select-pick-total']"
+            },
+            "label": "Estimated yield share",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='ma-allocation-line']"
+            },
+            "label": "Sizing, destination MA and estimate",
+            "number": 3,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='ma-allocation-current-membership']"
+            },
+            "label": "Current physical membership",
+            "number": 4,
+            "color": "#b45309",
+            "labelBackground": "#b45309",
+            "padding": 6,
+            "optional": true
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='ma-allocation-new-ma']"
+            },
+            "label": "Create destination MA",
+            "number": 5,
+            "color": "#7c3aed",
+            "labelBackground": "#7c3aed",
+            "padding": 6,
+            "optional": true
+          }
+        ]
+      }
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "label": "Close Select Pick",
+        "exact": true
+      },
+      "timeoutMs": 1500
+    }
+  ]
+}

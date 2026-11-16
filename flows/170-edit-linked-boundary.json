@@ -1,0 +1,219 @@
+{
+  "id": "edit-linked-boundary",
+  "title": "Edit a linked boundary",
+  "description": "Start reshape mode for a linked Orchard and cancel.",
+  "category": "Geometry",
+  "order": 170,
+  "safety": "This guide does not save, publish or delete records.",
+  "prerequisites": [
+    "Permission to edit Orchards.",
+    "At least one linked Orchard is available."
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "steps": [
+    {
+      "heading": "Start boundary editing",
+      "instruction": "Filter to Linked, select an Orchard and choose Edit.",
+      "actions": [
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='orchard-workbench']"
+          },
+          "timeoutMs": 30000
+        },
+        {
+          "type": "clickUntilVisible",
+          "locator": {
+            "selector": "button[role='tab'][title='Orchards']"
+          },
+          "successLocator": {
+            "selector": "[data-guide='orchard-navigator']"
+          },
+          "timeoutMs": 20000,
+          "perAttemptTimeoutMs": 1200
+        },
+        {
+          "type": "waitForMapReady",
+          "timeoutMs": 120000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='orchard-link-filter-trigger']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='orchard-filter-linked']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='orchard-select']"
+          },
+          "minCount": 1,
+          "message": "No Orchard is available.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "clickFirst",
+          "locator": {
+            "selector": "[data-guide='orchard-select']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-entity='orchard']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='business-edit-action']:not(:disabled)"
+          },
+          "minCount": 1,
+          "message": "Edit is unavailable for this record.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='business-edit-action']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='schedule-change-modal']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "clickIfVisible",
+          "locator": {
+            "role": "button",
+            "name": "Use viewed state",
+            "exact": true
+          },
+          "timeoutMs": 1500
+        },
+        {
+          "type": "click",
+          "locator": {
+            "role": "button",
+            "name": "Continue",
+            "exact": true
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "waitFor",
+          "locator": {
+            "selector": "[data-guide='business-form-shell'][data-guide-mode='edit']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='business-boundary-action']:not(:disabled)"
+          },
+          "minCount": 1,
+          "message": "Boundary editing is unavailable for this Orchard and effective date.",
+          "timeoutMs": 10000
+        },
+        {
+          "type": "click",
+          "locator": {
+            "selector": "[data-guide='business-boundary-action']"
+          },
+          "timeoutMs": 20000
+        },
+        {
+          "type": "require",
+          "locator": {
+            "selector": "[data-guide='geometry-edit-actions']"
+          },
+          "minCount": 1,
+          "message": "No linked Orchard boundary entered edit mode.",
+          "timeoutMs": 15000
+        }
+      ],
+      "capture": {
+        "file": "01-reshape.png",
+        "fullPage": false,
+        "highlights": [
+          {
+            "locator": {
+              "selector": "[data-guide='geometry-edit-actions']"
+            },
+            "label": "Done or Cancel",
+            "number": 1,
+            "color": "#d92d20",
+            "labelBackground": "#d92d20",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='workbench-map']"
+            },
+            "label": "Adjust boundary",
+            "number": 2,
+            "color": "#15803d",
+            "labelBackground": "#15803d",
+            "padding": 6
+          },
+          {
+            "locator": {
+              "selector": "[data-guide='business-form-shell']"
+            },
+            "label": "Business edit form",
+            "number": 3,
+            "color": "#0058a4",
+            "labelBackground": "#0058a4",
+            "padding": 6,
+            "optional": true
+          }
+        ]
+      }
+    }
+  ],
+  "cleanupActions": [
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='geometry-cancel'] button"
+      },
+      "timeoutMs": 1500
+    },
+    {
+      "type": "clickIfVisible",
+      "locator": {
+        "selector": "[data-guide='business-edit-cancel'] button"
+      },
+      "timeoutMs": 1500
+    }
+  ],
+  "profiles": [
+    "core",
+    "full"
+  ],
+  "mutation": false,
+  "coverage": {
+    "capability": "Edit a linked boundary",
+    "mode": "safe",
+    "dataGated": true
+  }
+}
